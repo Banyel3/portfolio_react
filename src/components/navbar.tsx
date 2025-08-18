@@ -1,16 +1,18 @@
+import { Link } from "react-scroll";
+
 function NavBar(){
     return (
-      <div className="navbar bg-base-100 shadow-sm w-full justify-between">
+      <div className="navbar bg-base-100 shadow-sm w-full justify-between fixed top-0 z-10">
   <div className="flex-none ml-30">
     <a className="btn btn-ghost text-xl" href="/home">daisyUI</a>
   </div>
   <div className="flex-none mr-30">
     <ul className="menu menu-horizontal px-1 font-[Montserrat]">
-      <li><a href="/home">Home</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/certs">Certifications</a></li>
-      <li><a href="/events">Events</a></li>
-      <li><a href="/contact">Contact</a></li>
+      <li><Link to="Home" smooth={true} spy={true} offset={-50}>Home</Link></li>
+      <li><Link to="About" smooth={true} spy={true} offset={-50}>About</Link></li>
+      <li><Link to="Certs" smooth={true} spy={true} offset={-50}>Certifications</Link></li>
+      <li><Link to="Events" smooth={true} spy={true} offset={-50}>Events</Link></li>
+      <li><Link to="Contact" smooth={true} spy={true} offset={-50}>Contact</Link></li>
       {/* <li>
         <details>
           <summary>Parent</summary>
