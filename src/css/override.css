@@ -1,3 +1,7 @@
+html{
+    scroll-behavior: smooth;
+}
+
 .menu:active {
     color:#282d88;
 }
