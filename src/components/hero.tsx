@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button.tsx";
 import heroImg from "@/assets/hero_pic.jpg";
 function Hero(){
    return ( <div className="hero bg-base-200 min-h-screen">
-  <div className="hero-content flex-col lg:flex-row">
+  <div className="hero-content flex-col lg:flex-row" id="home">
     <img
       src={heroImg}
       className="max-w-sm rounded-lg shadow-2xl"

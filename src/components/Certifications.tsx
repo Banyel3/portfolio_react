@@ -53,7 +53,7 @@ const Cert_Card_Prop = [
 
 function Cert(){
 return (
-  <div className="bg-base-200 min-h-screen px-20">
+  <div className="bg-base-200 min-h-screen px-20" id="certs">
      <h1 className="pt-2 text-5xl text-center font-bold text-white">Certifications</h1>
      <div className="flex flex-wrap justify-center items-center gap-10 p-10">
               {Cert_Card_Prop.map((cert, index) => (

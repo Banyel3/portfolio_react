@@ -3,7 +3,7 @@ import cyberSec from "@/assets/cybersec.webp";
 
 function About(){
    return ( <div className="hero bg-base-200 min-h-screen">
-  <div className="hero-content flex-col lg:flex-row-reverse">
+  <div className="hero-content flex-col lg:flex-row-reverse" id="about">
     <img
       src={cyberSec}
       className="max-w-md rounded-xxl shadow-2xl"
