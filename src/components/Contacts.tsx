@@ -73,6 +73,10 @@ export default function Contacts() {
                     value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                     message: "Invalid email format",
                   },
+                  validate: (fieldValue) =>{
+                    return fieldValue !== "admin@admin.com" || "Cant use @admin.com as email";
+
+                  }
                 })}
                 placeholder="Email Address"
                 className="input text-white"
