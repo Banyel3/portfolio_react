@@ -1,11 +1,12 @@
 import { Link } from "react-scroll";
 
 function NavBar() {
+  const user = localStorage.getItem("username");
   return (
     <div className="navbar bg-base-100 shadow-sm w-full justify-between fixed top-0 z-10">
       <div className="flex-none ml-30">
-        <a className="btn btn-ghost text-xl" href="/home">
-          daisyUI
+        <a className="btn btn-ghost text-xl" href="#">
+          daisyUI | Hello {user}
         </a>
       </div>
       <div className="flex-none mr-30">
