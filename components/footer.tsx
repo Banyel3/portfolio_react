@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, ExternalLink } from "lucide-react"
+import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -9,17 +9,26 @@ export default function Footer() {
             <h3 className="font-semibold text-foreground mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <a href="#about" className="hover:text-foreground transition-colors">
+                <a
+                  href="#about"
+                  className="hover:text-foreground transition-colors"
+                >
                   About
                 </a>
               </li>
               <li>
-                <a href="#certificates" className="hover:text-foreground transition-colors">
+                <a
+                  href="#certificates"
+                  className="hover:text-foreground transition-colors"
+                >
                   Certificates
                 </a>
               </li>
               <li>
-                <a href="#projects" className="hover:text-foreground transition-colors">
+                <a
+                  href="#projects"
+                  className="hover:text-foreground transition-colors"
+                >
                   Projects
                 </a>
               </li>
@@ -28,13 +37,25 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-foreground mb-4">Connect</h3>
             <div className="flex gap-4">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" aria-label="GitHub">
+              <a
+                href="https://github.com/Banyel3"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="GitHub"
+              >
                 <Github size={20} />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" aria-label="LinkedIn">
+              <a
+                href="https://www.linkedin.com/in/vaniel-john-cornelio-4ba8aa278/"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="LinkedIn"
+              >
                 <Linkedin size={20} />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Email">
+              <a
+                href="mailto:cornelio.vaniel38@gmail.com"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Email"
+              >
                 <Mail size={20} />
               </a>
             </div>
@@ -42,7 +63,8 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-foreground mb-4">Get In Touch</h3>
             <p className="text-sm text-muted-foreground mb-3">
-              Interested in collaborating or have questions? Feel free to reach out!
+              Interested in collaborating or have questions? Feel free to reach
+              out!
             </p>
             <a
               href="mailto:your.email@example.com"
@@ -58,5 +80,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
