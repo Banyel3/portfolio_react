@@ -8,6 +8,10 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  // When running `prisma migrate` locally or in CI, Prisma creates a shadow
+  // database to safely run migrations. With Neon you should point this to
+  // a writable database (often a separate Neon branch) using an env var:
+  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Certificate {
