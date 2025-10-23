@@ -2,14 +2,7 @@ import type { Badge } from "@prisma/client";
 
 async function getBadges(): Promise<Badge[]> {
   try {
-    const res = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-      }/api/badges`,
-      {
-        cache: "no-store",
-      }
-    );
+    const res = await fetch(`/api/badges`, { cache: "no-store" });
     if (!res.ok) throw new Error("Failed to fetch");
     return res.json();
   } catch (error) {
