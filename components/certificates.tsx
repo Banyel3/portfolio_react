@@ -2,7 +2,13 @@ import type { Certificate } from "@prisma/client";
 
 async function getCertificates(): Promise<Certificate[]> {
   try {
-    const res = await fetch(`/api/certificates`, { cache: "no-store" });
+    const base =
+      process.env.NEXT_PUBLIC_APP_URL ??
+      (process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : undefined) ??
+      "http://localhost:3000";
+    const res = await fetch(`${base}/api/certificates`, { cache: "no-store" });
     if (!res.ok) throw new Error("Failed to fetch");
     return res.json();
   } catch (error) {
