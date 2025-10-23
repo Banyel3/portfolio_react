@@ -21,6 +21,8 @@ model Certificate {
   date        String
   description String
   skills      String[] // Array of skill tags
+  /// Certificate level (entry/intermediate/advanced). Optional so existing rows aren't affected.
+  level       CertificationLevel?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -50,4 +52,24 @@ model Skill {
   updatedAt DateTime @updatedAt
 
   @@map("skills")
+}
+
+enum CertificationLevel {
+  ENTRY
+  INTERMEDIATE
+  ADVANCED
+}
+
+model Badge {
+  id        String   @id @default(cuid())
+  title     String
+  issuer    String
+  date      String
+  badgeUrl  String?  // link to Credly badge or embed URL
+  imageUrl  String?
+  skills    String[] @default([])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("badges")
 }
