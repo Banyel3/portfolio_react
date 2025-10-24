@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Settings } from "lucide-react";
+import { Menu, X, Settings, Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,11 @@ export default function Navigation() {
     { label: "Certificates", href: "#certificates" },
     { label: "Projects", href: "#projects" },
   ];
+
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -43,6 +49,22 @@ export default function Navigation() {
                 CMS
               </Link>
             )}
+            {/* Theme toggle */}
+            <button
+              aria-label="Toggle theme"
+              title="Toggle light / dark"
+              onClick={() =>
+                setTheme(resolvedTheme === "dark" ? "light" : "dark")
+              }
+              className="flex items-center justify-center w-10 h-10 rounded-full bg-card border border-border hover:bg-muted transition-colors"
+            >
+              {mounted &&
+                (resolvedTheme === "dark" ? (
+                  <Sun size={16} />
+                ) : (
+                  <Moon size={16} />
+                ))}
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -78,6 +100,30 @@ export default function Navigation() {
                 CMS
               </Link>
             )}
+            <div className="px-4">
+              <button
+                aria-label="Toggle theme"
+                title="Toggle light / dark"
+                onClick={() =>
+                  setTheme(resolvedTheme === "dark" ? "light" : "dark")
+                }
+                className="flex items-center gap-2 px-3 py-2 rounded-md bg-card border border-border hover:bg-muted transition-colors text-sm w-full justify-center"
+              >
+                {mounted &&
+                  (resolvedTheme === "dark" ? (
+                    <Sun size={16} />
+                  ) : (
+                    <Moon size={16} />
+                  ))}
+                <span>
+                  {mounted
+                    ? resolvedTheme === "dark"
+                      ? "Light"
+                      : "Dark"
+                    : "Theme"}
+                </span>
+              </button>
+            </div>
           </div>
         )}
       </div>

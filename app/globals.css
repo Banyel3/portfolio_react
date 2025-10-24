@@ -4,24 +4,26 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.08 0 0);
-  --foreground: oklch(0.95 0 0);
-  --card: oklch(0.12 0 0);
-  --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.12 0 0);
-  --popover-foreground: oklch(0.95 0 0);
+  --background: oklch(0.98 0 0); /* light background for light mode */
+  --foreground: oklch(
+    0.1 0 0
+  ); /* dark foreground for visibility on light background */
+  --card: oklch(0.95 0 0); /* light card background for light mode */
+  --card-foreground: oklch(0.1 0 0);
+  --popover: oklch(0.95 0 0); /* light popover background */
+  --popover-foreground: oklch(0.1 0 0);
   --primary: oklch(0.5 0.2 260);
   --primary-foreground: oklch(0.95 0 0);
-  --secondary: oklch(0.15 0 0);
-  --secondary-foreground: oklch(0.95 0 0);
-  --muted: oklch(0.25 0 0);
-  --muted-foreground: oklch(0.65 0 0);
+  --secondary: oklch(0.9 0 0); /* light secondary background */
+  --secondary-foreground: oklch(0.1 0 0);
+  --muted: oklch(0.92 0 0); /* light muted background */
+  --muted-foreground: oklch(0.4 0 0); /* darker muted text */
   --accent: oklch(0.6 0.2 200);
   --accent-foreground: oklch(0.08 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.2 0 0);
-  --input: oklch(0.15 0 0);
+  --border: oklch(0.85 0 0); /* light border */
+  --input: oklch(0.9 0 0); /* light input background */
   --ring: oklch(0.5 0.2 260);
   --chart-1: oklch(0.6 0.2 200);
   --chart-2: oklch(0.5 0.2 260);
@@ -29,30 +31,30 @@
   --chart-4: oklch(0.65 0.2 180);
   --chart-5: oklch(0.45 0.2 240);
   --radius: 0.625rem;
-  --sidebar: oklch(0.12 0 0);
-  --sidebar-foreground: oklch(0.95 0 0);
+  --sidebar: oklch(0.95 0 0); /* light sidebar background */
+  --sidebar-foreground: oklch(0.1 0 0);
   --sidebar-primary: oklch(0.5 0.2 260);
   --sidebar-primary-foreground: oklch(0.95 0 0);
   --sidebar-accent: oklch(0.6 0.2 200);
   --sidebar-accent-foreground: oklch(0.08 0 0);
-  --sidebar-border: oklch(0.2 0 0);
+  --sidebar-border: oklch(0.85 0 0); /* light sidebar border */
   --sidebar-ring: oklch(0.5 0.2 260);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(0.08 0 0); /* dark background for dark mode */
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.145 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.145 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
+  --primary: oklch(0.5 0.2 260); /* blue primary for dark mode as well */
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --accent: oklch(0.6 0.2 200);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.396 0.141 25.723);
   --destructive-foreground: oklch(0.637 0.237 25.331);
@@ -121,5 +123,22 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Smooth transition when theme variables change */
+    transition: background-color 250ms ease, color 250ms ease;
+  }
+
+  /* Smoothly animate key surfaces when theme changes. Targeting
+     the utility classes used across the app so switches feel soft. */
+  .bg-card,
+  .bg-popover,
+  .bg-primary,
+  .bg-muted,
+  .bg-secondary,
+  .text-foreground,
+  .text-muted-foreground,
+  .text-primary,
+  .border-border {
+    transition: background-color 250ms ease, color 250ms ease,
+      border-color 250ms ease, box-shadow 250ms ease;
   }
 }
