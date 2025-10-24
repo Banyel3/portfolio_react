@@ -1,41 +1,44 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 interface Project {
-  id: string
-  title: string
-  category: string
-  description: string
-  technologies: string[]
-  githubLink?: string
-  liveLink?: string
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  technologies: string[];
+  githubLink?: string;
+  liveLink?: string;
 }
 
-const categories = ["All", "Cybersecurity", "Software Engineering", "AI/ML"]
+const categories = ["All", "Cybersecurity", "Software Engineering", "AI/ML"];
 
 export default function Projects() {
-  const [projects, setProjects] = useState<Project[]>([])
-  const [activeCategory, setActiveCategory] = useState("All")
-  const [loading, setLoading] = useState(true)
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchProjects()
-  }, [])
+    fetchProjects();
+  }, []);
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch("/api/projects")
-      const data = await res.json()
-      setProjects(data)
+      const res = await fetch("/api/projects");
+      const data = await res.json();
+      setProjects(data);
     } catch (error) {
-      console.error("Error fetching projects:", error)
+      console.error("Error fetching projects:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const filteredProjects = activeCategory === "All" ? projects : projects.filter((p) => p.category === activeCategory)
+  const filteredProjects =
+    activeCategory === "All"
+      ? projects
+      : projects.filter((p) => p.category === activeCategory);
 
   return (
     <section id="projects" className="py-20 sm:py-32 border-t border-border">
@@ -43,7 +46,8 @@ export default function Projects() {
         <div className="mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">Projects</h2>
           <p className="text-muted-foreground">
-            A selection of my work across cybersecurity, software engineering, and AI/ML
+            A selection of my work across cybersecurity, software engineering,
+            and AI/ML
           </p>
         </div>
 
@@ -64,7 +68,9 @@ export default function Projects() {
         </div>
 
         {loading ? (
-          <div className="text-center text-muted-foreground">Loading projects...</div>
+          <div className="text-center text-muted-foreground">
+            Loading projects...
+          </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProjects.map((project) => (
@@ -76,15 +82,22 @@ export default function Projects() {
                 className="group p-6 rounded-lg bg-card border border-border hover:border-primary/50 transition-all hover:shadow-lg"
               >
                 <div className="mb-4">
-                  <span className="text-xs px-3 py-1 rounded-full bg-accent/10 text-accent">{project.category}</span>
+                  <span className="text-xs px-3 py-1 rounded-full bg-accent/10 text-accent">
+                    {project.category}
+                  </span>
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{project.description}</p>
+                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                  {project.description}
+                </p>
                 <div className="flex flex-wrap gap-2">
                   {project.technologies.slice(0, 3).map((tech) => (
-                    <span key={tech} className="text-xs px-2 py-1 rounded bg-primary/5 text-primary">
+                    <span
+                      key={tech}
+                      className="text-xs px-2 py-1 rounded bg-primary/5 text-primary"
+                    >
                       {tech}
                     </span>
                   ))}
@@ -100,5 +113,5 @@ export default function Projects() {
         )}
       </div>
     </section>
-  )
+  );
 }
