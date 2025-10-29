@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 
-const categories = ["Cybersecurity", "Software Engineering", "AI/ML"];
+const categories = ["Cybersecurity", "Software Engineering", "AI/ML", "Others"];
 
 export default function EditProjectPage() {
   const router = useRouter();

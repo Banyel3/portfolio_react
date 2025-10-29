@@ -12,7 +12,13 @@ interface Project {
   liveLink?: string;
 }
 
-const categories = ["All", "Cybersecurity", "Software Engineering", "AI/ML"];
+const categories = [
+  "All",
+  "Cybersecurity",
+  "Software Engineering",
+  "AI/ML",
+  "Others",
+];
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
