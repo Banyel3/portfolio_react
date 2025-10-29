@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-const categories = ["Cybersecurity", "Software Engineering", "AI/ML"]
+const categories = ["Cybersecurity", "Software Engineering", "AI/ML", "Others"];
 
 export default function NewProject() {
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -18,22 +18,26 @@ export default function NewProject() {
     technologies: "",
     githubLink: "",
     liveLink: "",
-  })
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     try {
       const technologiesArray = formData.technologies
         .split(",")
         .map((t) => t.trim())
-        .filter((t) => t)
+        .filter((t) => t);
 
       const res = await fetch("/api/projects", {
         method: "POST",
@@ -42,23 +46,26 @@ export default function NewProject() {
           ...formData,
           technologies: technologiesArray,
         }),
-      })
+      });
 
       if (res.ok) {
-        router.push("/cms/projects")
+        router.push("/cms/projects");
       }
     } catch (error) {
-      console.error("Error creating project:", error)
+      console.error("Error creating project:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-background">
       <div className="border-b border-border">
         <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-6">
-          <Link href="/cms/projects" className="text-primary hover:underline text-sm mb-2 block">
+          <Link
+            href="/cms/projects"
+            className="text-primary hover:underline text-sm mb-2 block"
+          >
             ← Back to Projects
           </Link>
           <h1 className="text-3xl font-bold">Add New Project</h1>
@@ -68,7 +75,9 @@ export default function NewProject() {
       <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-12">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium mb-2">Project Title</label>
+            <label className="block text-sm font-medium mb-2">
+              Project Title
+            </label>
             <input
               type="text"
               name="title"
@@ -97,7 +106,9 @@ export default function NewProject() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">Description</label>
+            <label className="block text-sm font-medium mb-2">
+              Description
+            </label>
             <textarea
               name="description"
               value={formData.description}
@@ -110,7 +121,9 @@ export default function NewProject() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">Technologies (comma-separated)</label>
+            <label className="block text-sm font-medium mb-2">
+              Technologies (comma-separated)
+            </label>
             <input
               type="text"
               name="technologies"
@@ -122,7 +135,9 @@ export default function NewProject() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">GitHub Link (optional)</label>
+            <label className="block text-sm font-medium mb-2">
+              GitHub Link (optional)
+            </label>
             <input
               type="url"
               name="githubLink"
@@ -134,7 +149,9 @@ export default function NewProject() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">Live Link (optional)</label>
+            <label className="block text-sm font-medium mb-2">
+              Live Link (optional)
+            </label>
             <input
               type="url"
               name="liveLink"
@@ -163,5 +180,5 @@ export default function NewProject() {
         </form>
       </div>
     </div>
-  )
+  );
 }
