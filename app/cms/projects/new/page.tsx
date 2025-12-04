@@ -5,8 +5,7 @@ import type React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
-const categories = ["Cybersecurity", "Software Engineering", "AI/ML", "Others"];
+import { PROJECT_CATEGORIES } from "@/lib/constants";
 
 export default function NewProject() {
   const router = useRouter();
@@ -97,7 +96,7 @@ export default function NewProject() {
               onChange={handleChange}
               className="w-full px-4 py-2 rounded-lg bg-card border border-border focus:border-primary outline-none"
             >
-              {categories.map((cat) => (
+              {PROJECT_CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
                 </option>

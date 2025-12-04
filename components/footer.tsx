@@ -76,7 +76,6 @@ export default function Footer() {
         </div>
         <div className="border-t border-border pt-8 flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground">
           <p>&copy; 2025 Vaniel Cornelio. All rights reserved.</p>
-          <p>Built with Next.js & Tailwind CSS</p>
         </div>
       </div>
     </footer>
