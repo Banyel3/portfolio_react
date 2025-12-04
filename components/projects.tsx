@@ -139,12 +139,11 @@ export default function Projects() {
                   strokeLinejoin="round"
                   className="text-primary"
                 >
-                  <path d="M12 3v3" />
-                  <path d="M18.5 13h-13" />
-                  <path d="M18.5 13a4.5 4.5 0 1 0 0 9h1a2 2 0 1 0 0-4h-1" />
-                  <path d="M5.5 13a4.5 4.5 0 1 1 0 9h-1a2 2 0 1 1 0-4h1" />
-                  <path d="M12 3a4 4 0 0 1 4 4v3" />
-                  <path d="M8 7a4 4 0 0 1 4-4" />
+                  <circle cx="12" cy="5" r="2" />
+                  <circle cx="5" cy="19" r="2" />
+                  <circle cx="19" cy="19" r="2" />
+                  <path d="M12 7v4" />
+                  <path d="M5 17v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2" />
                 </svg>
               </div>
               <span className="text-xs px-3 py-1 rounded-full bg-accent/10 text-accent">
