@@ -7,10 +7,10 @@ export default function Hero() {
           <div className="flex-1 space-y-6">
             <div className="space-y-2">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-balance">
-                Computer Science Student
+                Backend Developer
               </h1>
               <p className="text-lg sm:text-xl text-accent">
-                Cybersecurity • Software Engineering • AI/ML
+                Software Engineering • AI/ML • Automations
               </p>
             </div>
             <p className="max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">

@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
-
-const categories = ["Cybersecurity", "Software Engineering", "AI/ML", "Others"];
+import { PROJECT_CATEGORIES } from "@/lib/constants";
 
 export default function EditProjectPage() {
   const router = useRouter();
@@ -145,7 +144,7 @@ export default function EditProjectPage() {
               onChange={handleChange}
               className="w-full px-4 py-2 rounded-lg bg-card border border-border focus:border-primary outline-none"
             >
-              {categories.map((cat) => (
+              {PROJECT_CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
                 </option>

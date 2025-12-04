@@ -9,10 +9,10 @@ export default function About() {
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">About Me</h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                I'm a Computer Science student with a deep passion for
-                cybersecurity, software engineering, and artificial
-                intelligence. My academic journey has equipped me with strong
-                fundamentals in algorithms, data structures, and system design.
+                I'm a Computer Science student with a deep passion for software
+                engineering, artificial intelligence, and building automations.
+                My academic journey has equipped me with strong fundamentals in
+                algorithms, data structures, and system design.
               </p>
               <p>
                 Through hands-on projects and certifications, I've developed
@@ -38,10 +38,6 @@ export default function About() {
                 Specializations
               </h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="text-primary mt-1">→</span>
-                  <span>Network Security & Penetration Testing</span>
-                </li>
                 <li className="flex items-start gap-2">
                   <span className="text-primary mt-1">→</span>
                   <span>Full-Stack Web Development</span>
