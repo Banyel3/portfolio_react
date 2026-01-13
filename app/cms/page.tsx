@@ -87,6 +87,21 @@ export default function CMSDashboard() {
             </p>
             <div className="text-sm text-primary font-medium">Manage →</div>
           </Link>
+
+          {/* Testimonials Card */}
+          <Link
+            href="/cms/testimonials"
+            className="p-6 rounded-lg bg-card border border-border hover:border-primary/50 transition-all hover:shadow-lg"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold">Testimonials</h2>
+              <Plus className="w-5 h-5 text-primary" />
+            </div>
+            <p className="text-muted-foreground text-sm mb-4">
+              Manage client reviews and testimonials
+            </p>
+            <div className="text-sm text-primary font-medium">Manage →</div>
+          </Link>
         </div>
       </div>
     </div>
