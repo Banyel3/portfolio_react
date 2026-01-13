@@ -1,6 +1,7 @@
 import Navigation from "@/components/navigation";
 import Hero from "@/components/hero";
 import About from "@/components/about";
+import Testimonials from "@/components/testimonials";
 import Certificates from "@/components/certificates";
 import Badges from "@/components/badges";
 import Projects from "@/components/projects";
@@ -12,6 +13,7 @@ export default function Home() {
       <Navigation />
       <Hero />
       <About />
+      <Testimonials />
       <Certificates />
       <Badges />
       <Projects />

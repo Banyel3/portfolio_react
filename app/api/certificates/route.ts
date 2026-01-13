@@ -1,16 +1,31 @@
 import { prisma } from "@/lib/prisma";
 import { type NextRequest, NextResponse } from "next/server";
 
+// Revalidate cache every 60 seconds
+export const revalidate = 60;
+
 export async function GET() {
   try {
-    console.log("[v0] Fetching certificates from database...");
     const certificates = await prisma.certificate.findMany({
+      select: {
+        id: true,
+        title: true,
+        issuer: true,
+        date: true,
+        description: true,
+        skills: true,
+        level: true,
+      },
       orderBy: { createdAt: "desc" },
     });
-    console.log("[v0] Successfully fetched certificates:", certificates.length);
-    return NextResponse.json(certificates);
+
+    return NextResponse.json(certificates, {
+      headers: {
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+      },
+    });
   } catch (error) {
-    console.error("[v0] Error fetching certificates:", error);
+    console.error("[certificates] GET error:", error);
     return NextResponse.json(
       { error: "Failed to fetch certificates", details: String(error) },
       { status: 500 }

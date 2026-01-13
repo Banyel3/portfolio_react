@@ -1,23 +1,42 @@
-import { prisma } from "@/lib/prisma"
-import { type NextRequest, NextResponse } from "next/server"
+import { prisma } from "@/lib/prisma";
+import { type NextRequest, NextResponse } from "next/server";
+
+// Revalidate cache every 60 seconds
+export const revalidate = 60;
 
 export async function GET() {
   try {
-    console.log("[v0] Fetching projects from database...")
     const projects = await prisma.project.findMany({
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        category: true,
+        technologies: true,
+        githubLink: true,
+        liveLink: true,
+        imageUrl: true,
+      },
       orderBy: { createdAt: "desc" },
-    })
-    console.log("[v0] Successfully fetched projects:", projects.length)
-    return NextResponse.json(projects)
+    });
+
+    return NextResponse.json(projects, {
+      headers: {
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+      },
+    });
   } catch (error) {
-    console.error("[v0] Error fetching projects:", error)
-    return NextResponse.json({ error: "Failed to fetch projects", details: String(error) }, { status: 500 })
+    console.error("[projects] GET error:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch projects", details: String(error) },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    const body = await request.json();
     const project = await prisma.project.create({
       data: {
         title: body.title,
@@ -27,10 +46,13 @@ export async function POST(request: NextRequest) {
         githubLink: body.githubLink || null,
         liveLink: body.liveLink || null,
       },
-    })
-    return NextResponse.json(project, { status: 201 })
+    });
+    return NextResponse.json(project, { status: 201 });
   } catch (error) {
-    console.error("[v0] Error creating project:", error)
-    return NextResponse.json({ error: "Failed to create project", details: String(error) }, { status: 500 })
+    console.error("[v0] Error creating project:", error);
+    return NextResponse.json(
+      { error: "Failed to create project", details: String(error) },
+      { status: 500 }
+    );
   }
 }
