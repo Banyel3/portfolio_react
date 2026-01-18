@@ -3,10 +3,11 @@ import { NextResponse } from "next/server";
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await prisma.badge.delete({ where: { id: params.id } });
+    const { id } = await params;
+    await prisma.badge.delete({ where: { id } });
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("[badges/[id]] DELETE error", error);

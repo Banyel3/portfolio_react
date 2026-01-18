@@ -17,7 +17,11 @@ export default function NewProject() {
     technologies: "",
     githubLink: "",
     liveLink: "",
+    images: "",
   });
+  const [uploadedImages, setUploadedImages] = useState<Array<{ url: string; path: string }>>([]);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -26,6 +30,49 @@ export default function NewProject() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setUploading(true);
+    setUploadError(null);
+
+    try {
+      const uploadPromises = Array.from(files).map(async (file) => {
+        const form = new FormData();
+        form.append("file", file);
+        const res = await fetch("/api/upload-project", {
+          method: "POST",
+          body: form,
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data?.error || "Upload failed");
+        return { url: data.publicUrl, path: data.path };
+      });
+
+      const results = await Promise.all(uploadPromises);
+      setUploadedImages((prev) => [...prev, ...results]);
+    } catch (err) {
+      console.error("Upload failed:", err);
+      setUploadError(String(err));
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const removeImage = async (index: number) => {
+    const image = uploadedImages[index];
+    try {
+      await fetch("/api/upload-project", {
+        method: "DELETE",
+        body: JSON.stringify({ path: image.path }),
+      });
+    } catch (err) {
+      console.error("Error removing uploaded image:", err);
+    }
+    setUploadedImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,12 +85,20 @@ export default function NewProject() {
         .map((t) => t.trim())
         .filter((t) => t);
 
+      const imagesArray = uploadedImages.map((img) => img.url);
+
+      if (uploading) {
+        alert("Please wait for images to finish uploading before submitting.");
+        return;
+      }
+
       const res = await fetch("/api/projects", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
           technologies: technologiesArray,
+          images: imagesArray,
         }),
       });
 
@@ -145,6 +200,68 @@ export default function NewProject() {
               className="w-full px-4 py-2 rounded-lg bg-card border border-border focus:border-primary outline-none"
               placeholder="https://github.com/..."
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Live Link (optional)
+            </label>
+            <input
+              type="url"
+              name="liveLink"
+              value={formData.liveLink}
+              onChange={handleChange}
+              className="w-full px-4 py-2 rounded-lg bg-card border border-border focus:border-primary outline-none"
+              placeholder="https://..."
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Project Images (upload multiple)
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleFileChange}
+              className="w-full px-4 py-2 rounded-lg bg-card border border-border focus:border-primary outline-none"
+            />
+            
+            {uploading && (
+              <div className="mt-2 text-sm text-muted-foreground">
+                Uploading images...
+              </div>
+            )}
+            
+            {uploadError && (
+              <div className="mt-2 text-sm text-red-500">
+                Upload error: {uploadError}
+              </div>
+            )}
+
+            {uploadedImages.length > 0 && (
+              <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
+                {uploadedImages.map((image, index) => (
+                  <div key={index} className="relative group">
+                    <img
+                      src={image.url}
+                      alt={`Project ${index + 1}`}
+                      className="w-full h-32 object-cover rounded-lg border border-border"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="absolute top-2 right-2 p-1 rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M18 6 6 18M6 6l12 12"/>
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div>

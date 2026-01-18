@@ -17,6 +17,7 @@ interface Project {
 export default function ProjectsManager() {
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     fetchProjects()
@@ -25,10 +26,23 @@ export default function ProjectsManager() {
   const fetchProjects = async () => {
     try {
       const res = await fetch("/api/projects")
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}))
+        throw new Error(errorData.error || `HTTP error! status: ${res.status}`)
+      }
       const data = await res.json()
-      setProjects(data)
+      if (Array.isArray(data)) {
+        setProjects(data)
+        setError(null)
+      } else {
+        console.error("Unexpected data format:", data)
+        setProjects([])
+        setError("Received invalid data format from server")
+      }
     } catch (error) {
       console.error("Error fetching projects:", error)
+      setProjects([])
+      setError(error instanceof Error ? error.message : "Failed to fetch projects. Database may be unavailable.")
     } finally {
       setLoading(false)
     }
@@ -38,10 +52,14 @@ export default function ProjectsManager() {
     if (!confirm("Are you sure you want to delete this project?")) return
 
     try {
-      await fetch(`/api/projects/${id}`, { method: "DELETE" })
+      const res = await fetch(`/api/projects/${id}`, { method: "DELETE" })
+      if (!res.ok) {
+        throw new Error(`Failed to delete: ${res.status}`)
+      }
       setProjects(projects.filter((p) => p.id !== id))
     } catch (error) {
       console.error("Error deleting project:", error)
+      alert("Failed to delete project. Please try again.")
     }
   }
 
@@ -70,6 +88,19 @@ export default function ProjectsManager() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12">
         {loading ? (
           <div className="text-center text-muted-foreground">Loading...</div>
+        ) : error ? (
+          <div className="text-center py-12">
+            <div className="max-w-md mx-auto p-6 rounded-lg bg-red-500/10 border border-red-500/20">
+              <p className="text-red-500 font-semibold mb-2">Database Connection Error</p>
+              <p className="text-sm text-muted-foreground mb-4">{error}</p>
+              <button
+                onClick={() => { setLoading(true); fetchProjects(); }}
+                className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
+              >
+                Retry Connection
+              </button>
+            </div>
+          </div>
         ) : projects.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-muted-foreground mb-4">No projects yet</p>
