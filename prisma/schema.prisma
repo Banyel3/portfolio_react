@@ -40,6 +40,7 @@ model Project {
   githubLink   String?
   liveLink     String?
   imageUrl     String?
+  images       String[] @default([]) // Array of image URLs for modal gallery
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -70,7 +71,7 @@ model Badge {
   title     String
   issuer    String
   date      String
-  badgeUrl  String?  // link to Credly badge or embed URL
+  badgeUrl  String? // link to Credly badge or embed URL
   imageUrl  String?
   skills    String[] @default([])
   createdAt DateTime @default(now())

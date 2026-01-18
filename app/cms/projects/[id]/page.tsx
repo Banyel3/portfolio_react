@@ -19,7 +19,11 @@ export default function EditProjectPage() {
     technologies: "",
     githubLink: "",
     liveLink: "",
+    images: "",
   });
+  const [uploadedImages, setUploadedImages] = useState<Array<{ url: string; path: string }>>([]);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -28,7 +32,14 @@ export default function EditProjectPage() {
       setInitialLoading(true);
       try {
         const res = await fetch(`/api/projects/${id}`);
-        if (!res.ok) throw new Error("Failed to fetch");
+        if (!res.ok) {
+          if (res.status === 404) {
+            alert("Project not found");
+          } else {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          return;
+        }
         const project = await res.json();
         setFormData({
           title: project.title || "",
@@ -37,9 +48,15 @@ export default function EditProjectPage() {
           technologies: (project.technologies || []).join(", "),
           githubLink: project.githubLink || "",
           liveLink: project.liveLink || "",
+          images: "",
         });
+        // Set existing images from database
+        if (project.images && Array.isArray(project.images)) {
+          setUploadedImages(project.images.map((url: string) => ({ url, path: "" })));
+        }
       } catch (error) {
         console.error("Error loading project:", error);
+        alert("Failed to load project. The database may be unavailable.");
       } finally {
         setInitialLoading(false);
       }
@@ -57,6 +74,52 @@ export default function EditProjectPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setUploading(true);
+    setUploadError(null);
+
+    try {
+      const uploadPromises = Array.from(files).map(async (file) => {
+        const form = new FormData();
+        form.append("file", file);
+        const res = await fetch("/api/upload-project", {
+          method: "POST",
+          body: form,
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data?.error || "Upload failed");
+        return { url: data.publicUrl, path: data.path };
+      });
+
+      const results = await Promise.all(uploadPromises);
+      setUploadedImages((prev) => [...prev, ...results]);
+    } catch (err) {
+      console.error("Upload failed:", err);
+      setUploadError(String(err));
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const removeImage = async (index: number) => {
+    const image = uploadedImages[index];
+    // Only delete from storage if it has a path (newly uploaded)
+    if (image.path) {
+      try {
+        await fetch("/api/upload-project", {
+          method: "DELETE",
+          body: JSON.stringify({ path: image.path }),
+        });
+      } catch (err) {
+        console.error("Error removing uploaded image:", err);
+      }
+    }
+    setUploadedImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!id) return;
@@ -68,10 +131,21 @@ export default function EditProjectPage() {
         .map((t) => t.trim())
         .filter((t) => t);
 
+      const imagesArray = uploadedImages.map((img) => img.url);
+
+      if (uploading) {
+        alert("Please wait for images to finish uploading before submitting.");
+        return;
+      }
+
       const res = await fetch(`/api/projects/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, technologies: technologiesArray }),
+        body: JSON.stringify({
+          ...formData,
+          technologies: technologiesArray,
+          images: imagesArray,
+        }),
       });
 
       if (res.ok) {
@@ -203,6 +277,54 @@ export default function EditProjectPage() {
               onChange={handleChange}
               className="w-full px-4 py-2 rounded-lg bg-card border border-border focus:border-primary outline-none"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Project Images (upload multiple)
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleFileChange}
+              className="w-full px-4 py-2 rounded-lg bg-card border border-border focus:border-primary outline-none"
+            />
+            
+            {uploading && (
+              <div className="mt-2 text-sm text-muted-foreground">
+                Uploading images...
+              </div>
+            )}
+            
+            {uploadError && (
+              <div className="mt-2 text-sm text-red-500">
+                Upload error: {uploadError}
+              </div>
+            )}
+
+            {uploadedImages.length > 0 && (
+              <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
+                {uploadedImages.map((image, index) => (
+                  <div key={index} className="relative group">
+                    <img
+                      src={image.url}
+                      alt={`Project ${index + 1}`}
+                      className="w-full h-32 object-cover rounded-lg border border-border"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="absolute top-2 right-2 p-1 rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M18 6 6 18M6 6l12 12"/>
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="flex gap-4">

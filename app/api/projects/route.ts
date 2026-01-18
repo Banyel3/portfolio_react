@@ -16,6 +16,7 @@ export async function GET() {
         githubLink: true,
         liveLink: true,
         imageUrl: true,
+        images: true,
       },
       orderBy: { createdAt: "desc" },
     });
@@ -45,6 +46,7 @@ export async function POST(request: NextRequest) {
         technologies: body.technologies || [],
         githubLink: body.githubLink || null,
         liveLink: body.liveLink || null,
+        images: body.images || [],
       },
     });
     return NextResponse.json(project, { status: 201 });

@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const project = await prisma.project.findUnique({ where: { id } });
     if (!project)
       return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -22,10 +22,10 @@ export async function GET(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
 
     const updated = await prisma.project.update({
@@ -38,6 +38,7 @@ export async function PATCH(
         githubLink: body.githubLink || null,
         liveLink: body.liveLink || null,
         imageUrl: body.imageUrl || null,
+        images: body.images || [],
       },
     });
 
@@ -53,10 +54,10 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     await prisma.project.delete({ where: { id } });
     return NextResponse.json({ ok: true });
   } catch (error) {

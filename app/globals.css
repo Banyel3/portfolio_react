@@ -127,6 +127,11 @@
     transition: background-color 250ms ease, color 250ms ease;
   }
 
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
   /* Smoothly animate key surfaces when theme changes. Targeting
      the utility classes used across the app so switches feel soft. */
   .bg-card,
@@ -140,5 +145,17 @@
   .border-border {
     transition: background-color 250ms ease, color 250ms ease,
       border-color 250ms ease, box-shadow 250ms ease;
+  }
+}
+
+/* Navigation animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

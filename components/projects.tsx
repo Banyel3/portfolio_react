@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { PROJECT_CATEGORIES_WITH_ALL } from "@/lib/constants";
+import ProjectModal from "./project-modal";
 
 interface Project {
   id: string;
@@ -11,12 +12,14 @@ interface Project {
   technologies: string[];
   githubLink?: string;
   liveLink?: string;
+  images?: string[];
 }
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [loading, setLoading] = useState(true);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   useEffect(() => {
     fetchProjects();
@@ -73,12 +76,10 @@ export default function Projects() {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProjects.map((project) => (
-              <a
+              <button
                 key={project.id}
-                href={project.githubLink || project.liveLink || "#"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group p-6 rounded-lg bg-card border border-border hover:border-primary/50 transition-all hover:shadow-lg"
+                onClick={() => setSelectedProject(project)}
+                className="group p-6 rounded-lg bg-card border border-border hover:border-primary/50 transition-all hover:shadow-lg text-left w-full"
               >
                 <div className="mb-4">
                   <span className="text-xs px-3 py-1 rounded-full bg-accent/10 text-accent">
@@ -106,7 +107,7 @@ export default function Projects() {
                     </span>
                   )}
                 </div>
-              </a>
+              </button>
             ))}
           </div>
         )}
@@ -171,6 +172,7 @@ export default function Projects() {
           </a>
         </div>
       </div>
-    </section>
+      {/* Project Modal */}
+      <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />    </section>
   );
 }
