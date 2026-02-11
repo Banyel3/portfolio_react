@@ -1,53 +1,89 @@
+import { Github, Linkedin, Mail } from "lucide-react";
+
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden py-20 sm:py-32">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col-reverse lg:flex-row items-center gap-8">
-          {/* Left: text/content */}
-          <div className="flex-1 space-y-6">
-            <div className="space-y-2">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-balance">
-                Backend Developer
-              </h1>
-              <p className="text-lg sm:text-xl text-accent">
-                Software Engineering • AI/ML • Automations
-              </p>
-            </div>
-            <p className="max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-              Passionate about building secure systems, crafting elegant
-              software solutions, and exploring the frontiers of artificial
-              intelligence. Showcasing my journey through certifications,
-              projects, and continuous learning.
-            </p>
-            <div className="flex flex-wrap gap-4 pt-4">
-              <a
-                href="#projects"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
-              >
-                View My Work
-              </a>
-              <a
-                href="#about"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-border text-foreground font-medium hover:bg-card transition-colors"
-              >
-                Learn More
-              </a>
-            </div>
+    <header className="relative pt-32 pb-20 px-6 md:px-12 overflow-hidden">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        {/* Left Column: Name & Socials */}
+        <div className="lg:col-span-5 z-10 space-y-8 order-2 lg:order-1">
+          <div className="space-y-2">
+            <span className="text-primary font-display font-medium tracking-wide text-sm uppercase">
+              Hi, I&apos;m
+            </span>
+            <h1 className="text-5xl md:text-7xl font-display font-bold text-foreground leading-tight">
+              Vaniel
+              <br />
+              Cornelio<span className="text-primary">.</span>
+            </h1>
+            <div className="w-16 h-1 bg-primary mt-4" />
           </div>
+          <div className="flex gap-4 pt-4">
+            <a
+              href="mailto:cornelio.vaniel38@gmail.com"
+              className="w-10 h-10 border border-border rounded-full flex items-center justify-center hover:border-primary hover:text-primary transition-colors text-muted-foreground"
+              aria-label="Email"
+            >
+              <Mail size={16} />
+            </a>
+            <a
+              href="https://github.com/Banyel3"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 border border-border rounded-full flex items-center justify-center hover:border-primary hover:text-primary transition-colors text-muted-foreground"
+              aria-label="GitHub"
+            >
+              <Github size={16} />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/vaniel-john-cornelio-4ba8aa278/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 border border-border rounded-full flex items-center justify-center hover:border-primary hover:text-primary transition-colors text-muted-foreground"
+              aria-label="LinkedIn"
+            >
+              <Linkedin size={16} />
+            </a>
+          </div>
+        </div>
 
-          {/* Right: profile image - Cutout style */}
-          <div className="relative shrink-0">
-            {/* Glow Effect */}
-            <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full -z-10 scale-110" />
-
+        {/* Center Column: Profile Image */}
+        <div className="lg:col-span-4 relative flex justify-center order-1 lg:order-2">
+          <div className="relative z-10">
+            <div className="absolute -inset-4 bg-linear-to-tr from-primary/20 to-transparent rounded-full blur-2xl" />
             <img
               src="/profile.png"
-              alt="Your name"
-              className="w-72 h-72 sm:w-96 sm:h-96 lg:w-[32rem] lg:h-[32rem] object-contain drop-shadow-2xl z-10 relative transition-transform hover:scale-105 duration-500"
+              alt="Vaniel Cornelio"
+              className="w-64 md:w-80 h-80 md:h-96 object-cover rounded-t-full rounded-b-3xl contrast-110 shadow-2xl border-b-4 border-primary"
             />
           </div>
         </div>
+
+        {/* Right Column: Introduction */}
+        <div className="lg:col-span-3 space-y-8 z-10 order-3 flex flex-col justify-center">
+          <div className="space-y-4">
+            <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">
+              — Introduction
+            </span>
+            <h2 className="text-xl md:text-2xl font-display font-medium text-foreground">
+              Backend Developer, focused on building robust systems.
+            </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Passionate about building secure systems, crafting elegant software
+              solutions, and exploring the frontiers of artificial intelligence
+              and automations. Let&apos;s build something great.
+            </p>
+          </div>
+          <a
+            href="#about"
+            className="inline-flex items-center gap-2 text-primary font-display font-medium group text-sm"
+          >
+            My story
+            <span className="group-hover:translate-x-1 transition-transform">
+              →
+            </span>
+          </a>
+        </div>
       </div>
-    </section>
+    </header>
   );
 }

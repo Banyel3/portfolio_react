@@ -9,12 +9,24 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLocal, setIsLocal] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
   useIsLocal(setIsLocal);
 
-  // Add scroll detection for navbar style changes
+  // Scroll detection for navbar style changes
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
+
+      // Detect active section
+      const sections = ["about", "certificates", "projects", "testimonials"];
+      for (const id of sections.reverse()) {
+        const el = document.getElementById(id);
+        if (el && window.scrollY >= el.offsetTop - 120) {
+          setActiveSection(id);
+          break;
+        }
+      }
+      if (window.scrollY < 200) setActiveSection("");
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -24,6 +36,7 @@ export default function Navigation() {
     { label: "About", href: "#about" },
     { label: "Certificates", href: "#certificates" },
     { label: "Projects", href: "#projects" },
+    { label: "Testimonials", href: "#testimonials" },
   ];
 
   // Smooth scroll handler
@@ -34,165 +47,144 @@ export default function Navigation() {
     e.preventDefault();
     const element = document.querySelector(href);
     if (element) {
-      const offset = 80; // Height of navbar
+      const offset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
+      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
       setIsOpen(false);
     }
   };
 
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
 
   return (
     <nav
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`fixed w-full z-50 top-0 left-0 px-6 py-4 md:px-12 transition-all duration-300 ${
         scrolled
-          ? "bg-background/80 backdrop-blur-md shadow-lg border-b border-white/10"
-          : "bg-transparent border-b border-transparent"
+          ? "bg-background/80 backdrop-blur-md shadow-lg border-b border-border/50"
+          : "bg-transparent"
       }`}
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          <Link
-            href="/"
-            className="text-xl font-bold text-primary transition-transform duration-200 hover:scale-105"
-          >
-            {"<CS Portfolio />"}
-          </Link>
+      <div className="max-w-7xl mx-auto flex justify-between items-center">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="w-9 h-9 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold font-display text-lg group-hover:scale-110 transition-transform">
+            V
+          </div>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex gap-8 items-center">
-            {navItems.map((item) => (
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-8 font-display text-sm font-medium">
+          {navItems.map((item) => {
+            const sectionId = item.href.replace("#", "");
+            const isActive = activeSection === sectionId;
+            return (
               <a
                 key={item.href}
                 href={item.href}
                 onClick={(e) => handleSmoothScroll(e, item.href)}
-                className="text-sm text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-110 relative group"
+                className={`relative transition-colors duration-200 ${
+                  isActive
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-primary"
+                }`}
               >
                 {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                {isActive && (
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full" />
+                )}
               </a>
-            ))}
-            {isLocal && (
-              <Link
-                href="/cms"
-                className="flex items-center gap-2 px-3 py-2 rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition-all duration-200 text-sm font-medium hover:scale-105"
-              >
-                <Settings size={16} />
-                CMS
-              </Link>
-            )}
-            {/* Theme toggle */}
-            <button
-              aria-label="Toggle theme"
-              title="Toggle light / dark"
-              onClick={() =>
-                setTheme(resolvedTheme === "dark" ? "light" : "dark")
-              }
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-card border border-border hover:bg-muted transition-all duration-200 hover:scale-110 hover:rotate-12"
+            );
+          })}
+          {isLocal && (
+            <Link
+              href="/cms"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition-all duration-200 text-sm font-medium"
             >
-              {mounted &&
-                (resolvedTheme === "dark" ? (
-                  <Sun
-                    size={16}
-                    className="transition-transform duration-300"
-                  />
-                ) : (
-                  <Moon
-                    size={16}
-                    className="transition-transform duration-300"
-                  />
-                ))}
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
+              <Settings size={14} />
+              CMS
+            </Link>
+          )}
+          {/* Theme toggle */}
           <button
-            className="md:hidden transition-transform duration-200 hover:scale-110"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
+            aria-label="Toggle theme"
+            title="Toggle light / dark"
+            onClick={() =>
+              setTheme(resolvedTheme === "dark" ? "light" : "dark")
+            }
+            className="flex items-center justify-center w-9 h-9 rounded-full border border-border hover:border-primary hover:text-primary transition-all duration-200"
           >
-            <div className="relative w-6 h-6">
-              <Menu
-                size={24}
-                className={`absolute inset-0 transition-all duration-300 ${
-                  isOpen ? "opacity-0 rotate-90" : "opacity-100 rotate-0"
-                }`}
-              />
-              <X
-                size={24}
-                className={`absolute inset-0 transition-all duration-300 ${
-                  isOpen ? "opacity-100 rotate-0" : "opacity-0 -rotate-90"
-                }`}
-              />
-            </div>
+            {mounted &&
+              (resolvedTheme === "dark" ? (
+                <Sun size={15} />
+              ) : (
+                <Moon size={15} />
+              ))}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
-        <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-          }`}
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-foreground"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
         >
-          <div className="pb-4 space-y-2 animate-in slide-in-from-top">
-            {navItems.map((item, index) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(e) => handleSmoothScroll(e, item.href)}
-                className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-card rounded transition-all duration-200 hover:translate-x-1"
-                style={{
-                  animation: isOpen
-                    ? `slideIn 0.3s ease-out ${index * 0.1}s both`
-                    : "none",
-                }}
-              >
-                {item.label}
-              </a>
-            ))}
-            {isLocal && (
-              <Link
-                href="/cms"
-                className="flex items-center gap-2 px-4 py-2 text-sm text-primary hover:bg-card rounded transition-all duration-200 font-medium hover:translate-x-1"
-                onClick={() => setIsOpen(false)}
-              >
-                <Settings size={16} />
-                CMS
-              </Link>
-            )}
-            <div className="px-4">
-              <button
-                aria-label="Toggle theme"
-                title="Toggle light / dark"
-                onClick={() =>
-                  setTheme(resolvedTheme === "dark" ? "light" : "dark")
-                }
-                className="flex items-center gap-2 px-3 py-2 rounded-md bg-card border border-border hover:bg-muted transition-all duration-200 text-sm w-full justify-center hover:scale-105"
-              >
-                {mounted &&
-                  (resolvedTheme === "dark" ? (
-                    <Sun size={16} />
-                  ) : (
-                    <Moon size={16} />
-                  ))}
-                <span>
-                  {mounted
-                    ? resolvedTheme === "dark"
-                      ? "Light"
-                      : "Dark"
-                    : "Theme"}
-                </span>
-              </button>
-            </div>
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile Navigation */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          isOpen ? "max-h-96 opacity-100 mt-4" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="pb-4 space-y-1 bg-card/90 backdrop-blur-md rounded-lg p-4 border border-border">
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={(e) => handleSmoothScroll(e, item.href)}
+              className="block px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-all duration-200 font-display"
+            >
+              {item.label}
+            </a>
+          ))}
+          {isLocal && (
+            <Link
+              href="/cms"
+              className="flex items-center gap-2 px-4 py-2.5 text-sm text-primary hover:bg-muted rounded transition-all duration-200 font-display font-medium"
+              onClick={() => setIsOpen(false)}
+            >
+              <Settings size={14} />
+              CMS
+            </Link>
+          )}
+          <div className="px-4 pt-2">
+            <button
+              aria-label="Toggle theme"
+              onClick={() =>
+                setTheme(resolvedTheme === "dark" ? "light" : "dark")
+              }
+              className="flex items-center gap-2 px-3 py-2 rounded-md bg-muted border border-border text-sm w-full justify-center font-display"
+            >
+              {mounted &&
+                (resolvedTheme === "dark" ? (
+                  <Sun size={14} />
+                ) : (
+                  <Moon size={14} />
+                ))}
+              <span>
+                {mounted
+                  ? resolvedTheme === "dark"
+                    ? "Light Mode"
+                    : "Dark Mode"
+                  : "Theme"}
+              </span>
+            </button>
           </div>
         </div>
       </div>

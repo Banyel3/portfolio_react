@@ -24,11 +24,16 @@ export default function Badges() {
   }, []);
 
   return (
-    <section id="badges" className="py-12 sm:py-16 border-t border-border">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Badges</h2>
-          <p className="text-muted-foreground">
+    <section id="badges" className="py-12 px-6 md:px-12 bg-card">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-8 space-y-2">
+          <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">
+            — Credentials
+          </span>
+          <h2 className="text-2xl font-display font-bold text-foreground">
+            Badges &amp; Certifications
+          </h2>
+          <p className="text-muted-foreground text-sm">
             Credly badges and micro-credentials
           </p>
         </div>
