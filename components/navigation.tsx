@@ -27,7 +27,10 @@ export default function Navigation() {
   ];
 
   // Smooth scroll handler
-  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleSmoothScroll = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
     e.preventDefault();
     const element = document.querySelector(href);
     if (element) {
@@ -37,7 +40,7 @@ export default function Navigation() {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: "smooth"
+        behavior: "smooth",
       });
       setIsOpen(false);
     }
@@ -49,15 +52,17 @@ export default function Navigation() {
   useEffect(() => setMounted(true), []);
 
   return (
-    <nav className={`sticky top-0 z-50 border-b border-border transition-all duration-300 ${
-      scrolled 
-        ? "bg-background/80 backdrop-blur-md shadow-lg" 
-        : "bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
-    }`}>
+    <nav
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-background/80 backdrop-blur-md shadow-lg border-b border-white/10"
+          : "bg-transparent border-b border-transparent"
+      }`}
+    >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="text-xl font-bold text-primary transition-transform duration-200 hover:scale-105"
           >
             {"<CS Portfolio />"}
@@ -96,9 +101,15 @@ export default function Navigation() {
             >
               {mounted &&
                 (resolvedTheme === "dark" ? (
-                  <Sun size={16} className="transition-transform duration-300" />
+                  <Sun
+                    size={16}
+                    className="transition-transform duration-300"
+                  />
                 ) : (
-                  <Moon size={16} className="transition-transform duration-300" />
+                  <Moon
+                    size={16}
+                    className="transition-transform duration-300"
+                  />
                 ))}
             </button>
           </div>
@@ -110,14 +121,14 @@ export default function Navigation() {
             aria-label="Toggle menu"
           >
             <div className="relative w-6 h-6">
-              <Menu 
-                size={24} 
+              <Menu
+                size={24}
                 className={`absolute inset-0 transition-all duration-300 ${
                   isOpen ? "opacity-0 rotate-90" : "opacity-100 rotate-0"
                 }`}
               />
-              <X 
-                size={24} 
+              <X
+                size={24}
                 className={`absolute inset-0 transition-all duration-300 ${
                   isOpen ? "opacity-100 rotate-0" : "opacity-0 -rotate-90"
                 }`}
@@ -127,7 +138,7 @@ export default function Navigation() {
         </div>
 
         {/* Mobile Navigation */}
-        <div 
+        <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
             isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
           }`}
@@ -140,7 +151,9 @@ export default function Navigation() {
                 onClick={(e) => handleSmoothScroll(e, item.href)}
                 className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-card rounded transition-all duration-200 hover:translate-x-1"
                 style={{
-                  animation: isOpen ? `slideIn 0.3s ease-out ${index * 0.1}s both` : 'none'
+                  animation: isOpen
+                    ? `slideIn 0.3s ease-out ${index * 0.1}s both`
+                    : "none",
                 }}
               >
                 {item.label}

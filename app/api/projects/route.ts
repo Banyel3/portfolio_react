@@ -30,7 +30,7 @@ export async function GET() {
     console.error("[projects] GET error:", error);
     return NextResponse.json(
       { error: "Failed to fetch projects", details: String(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -46,6 +46,7 @@ export async function POST(request: NextRequest) {
         technologies: body.technologies || [],
         githubLink: body.githubLink || null,
         liveLink: body.liveLink || null,
+        imageUrl: body.imageUrl || null,
         images: body.images || [],
       },
     });
@@ -54,7 +55,7 @@ export async function POST(request: NextRequest) {
     console.error("[v0] Error creating project:", error);
     return NextResponse.json(
       { error: "Failed to create project", details: String(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
