@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -15,14 +15,14 @@ export async function GET(
     console.error("[testimonials/[id]] GET error:", error);
     return NextResponse.json(
       { error: "Failed to fetch testimonial", details: String(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function PATCH(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -44,14 +44,14 @@ export async function PATCH(
     console.error("[testimonials/[id]] PATCH error:", error);
     return NextResponse.json(
       { error: "Failed to update testimonial", details: String(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -61,7 +61,7 @@ export async function DELETE(
     console.error("[testimonials/[id]] DELETE error:", error);
     return NextResponse.json(
       { error: "Failed to delete testimonial", details: String(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

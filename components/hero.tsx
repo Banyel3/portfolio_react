@@ -35,12 +35,15 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right: profile image - replace src with your picture */}
-          <div className="shrink-0">
+          {/* Right: profile image - Cutout style */}
+          <div className="relative shrink-0">
+            {/* Glow Effect */}
+            <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full -z-10 scale-110" />
+
             <img
-              src="/profile.jpg"
+              src="/profile.png"
               alt="Your name"
-              className="w-40 h-40 sm:w-52 sm:h-52 lg:w-64 lg:h-64 rounded-full object-cover ring-2 ring-border shadow-md"
+              className="w-72 h-72 sm:w-96 sm:h-96 lg:w-[32rem] lg:h-[32rem] object-contain drop-shadow-2xl z-10 relative transition-transform hover:scale-105 duration-500"
             />
           </div>
         </div>
