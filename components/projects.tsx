@@ -57,8 +57,8 @@ export default function Projects() {
               Selected Projects.
             </h2>
             <p className="text-muted-foreground text-sm max-w-sm">
-              A selection of my work across software engineering, AI/ML, and
-              automations.
+              A selection of my work across backend engineering, cloud
+              infrastructure, and automation.
             </p>
           </div>
           <a
@@ -78,15 +78,16 @@ export default function Projects() {
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
             <div className="space-y-3 max-w-2xl">
               <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">
-                — Featured Infrastructure Demo
+                — Cloud Engineering Project
               </span>
               <h3 className="text-2xl md:text-3xl font-display font-bold text-foreground">
                 Self-Hosted Cloud Platform
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                A live infrastructure showcase running on Ubuntu Server with
-                Docker services behind Nginx and Cloudflare Tunnel, designed to
-                demonstrate secure deployments and real-world operations.
+                A self-hosted cloud platform I built and operate as a
+                real-world Cloud Engineering project. Runs production services
+                on Ubuntu Server using Docker, Nginx, and Cloudflare Tunnel —
+                the same stack used in professional cloud environments.
               </p>
               <div className="flex flex-wrap gap-2 pt-1">
                 {[

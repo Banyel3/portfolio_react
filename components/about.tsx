@@ -10,15 +10,15 @@ export default function About() {
             — About
           </span>
           <h3 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-            Backend Developer,
+            Backend Developer.
             <br />
-            Building Beyond Code.
+            Cloud Engineer.
           </h3>
           <p className="text-muted-foreground text-sm max-w-md leading-relaxed">
-            I am a backend developer focused on building reliable systems and
-            deploying them in real-world environments. Alongside developing
-            applications, I design and operate self-hosted infrastructure that
-            runs multiple services securely on a Linux server.
+            I build backend systems and operate self-hosted cloud
+            infrastructure. I don&apos;t just write applications — I deploy and
+            run them on real infrastructure I own and manage, using the same
+            tools and practices cloud engineers use professionally.
           </p>
           <a
             href="mailto:cornelio.vaniel38@gmail.com"
@@ -34,16 +34,14 @@ export default function About() {
         {/* Right: Philosophy + Stats */}
         <div className="space-y-6">
           <h3 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-            Designing systems that deploy, operate, and stay secure in the real
-            world.
+            Real infrastructure. Not a tutorial. Not a sandbox.
           </h3>
           <p className="text-muted-foreground text-sm max-w-md leading-relaxed">
-            This includes reverse proxying with Nginx, secure exposure through
-            Cloudflare Tunnel, containerized services using Docker, and system
-            management tools like Portainer and Cockpit. Through this, I&apos;ve
-            developed practical experience not just in writing backend logic,
-            but also in system design, networking, and infrastructure
-            management.
+            My self-hosted platform runs on Ubuntu Server with Docker for
+            containerization, Nginx for reverse proxying, Cloudflare Tunnel
+            for secure public exposure, and Portainer and Cockpit for system
+            management — the same technology stack used in cloud and DevOps
+            environments.
           </p>
 
           {/* Skills Quick View */}
