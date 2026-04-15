@@ -74,6 +74,61 @@ export default function Projects() {
           </a>
         </div>
 
+        <div className="mb-12 p-6 md:p-8 bg-background border border-border rounded-lg">
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+            <div className="space-y-3 max-w-2xl">
+              <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">
+                — Featured Infrastructure Demo
+              </span>
+              <h3 className="text-2xl md:text-3xl font-display font-bold text-foreground">
+                Self-Hosted Cloud Platform
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                A live infrastructure showcase running on Ubuntu Server with
+                Docker services behind Nginx and Cloudflare Tunnel, designed to
+                demonstrate secure deployments and real-world operations.
+              </p>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {[
+                  "Ubuntu Server",
+                  "Cloudflare Tunnel",
+                  "Nginx",
+                  "Docker",
+                  "Portainer",
+                  "Cockpit",
+                ].map((tech) => (
+                  <span
+                    key={tech}
+                    className="text-xs px-2 py-1 rounded bg-primary/5 text-primary"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 md:items-end">
+              <a
+                href="https://demo.vancornelio.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground text-sm font-display font-medium hover:opacity-90 transition-opacity"
+              >
+                Visit Demo Platform
+                <span>↗</span>
+              </a>
+              <a
+                href="https://files.demo.vancornelio.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-primary font-display font-medium"
+              >
+                Open File Browser Demo
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
         {/* Category Filters */}
         <div className="flex flex-wrap gap-3 mb-12">
           {PROJECT_CATEGORIES_WITH_ALL.map((category) => (
@@ -227,6 +282,10 @@ export default function Projects() {
         </div>
       </div>
       {/* Project Modal */}
-      <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />    </section>
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
+    </section>
   );
 }

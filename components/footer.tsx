@@ -16,6 +16,15 @@ export default function Footer() {
         {/* Social Links */}
         <div className="flex gap-6 text-muted-foreground">
           <a
+            href="https://demo.vancornelio.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary transition-colors text-sm font-display"
+            aria-label="Infrastructure demo"
+          >
+            Infra Demo ↗
+          </a>
+          <a
             href="https://github.com/Banyel3"
             target="_blank"
             rel="noopener noreferrer"
@@ -43,7 +52,8 @@ export default function Footer() {
         </div>
 
         <p className="text-xs text-muted-foreground/60">
-          &copy; {new Date().getFullYear()} Vaniel Cornelio. All rights reserved.
+          &copy; {new Date().getFullYear()} Vaniel Cornelio. All rights
+          reserved.
         </p>
       </div>
     </footer>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Settings, Sun, Moon } from "lucide-react";
+import { Menu, X, Settings, Sun, Moon, ExternalLink } from "lucide-react";
 import { useTheme } from "next-themes";
 
 export default function Navigation() {
@@ -99,6 +99,16 @@ export default function Navigation() {
               </a>
             );
           })}
+          <a
+            href="https://demo.vancornelio.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition-all duration-200 text-sm font-medium"
+            aria-label="Open demo infrastructure platform in new tab"
+          >
+            Demo Platform
+            <ExternalLink size={14} />
+          </a>
           {isLocal && (
             <Link
               href="/cms"
@@ -153,6 +163,17 @@ export default function Navigation() {
               {item.label}
             </a>
           ))}
+          <a
+            href="https://demo.vancornelio.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center justify-between gap-2 px-4 py-2.5 text-sm text-primary-foreground bg-primary rounded transition-all duration-200 font-display font-medium"
+            aria-label="Open demo infrastructure platform in new tab"
+          >
+            <span>Demo Platform</span>
+            <ExternalLink size={14} />
+          </a>
           {isLocal && (
             <Link
               href="/cms"
