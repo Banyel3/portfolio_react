@@ -65,19 +65,19 @@ export default function Hero() {
               — Introduction
             </span>
             <h2 className="text-xl md:text-2xl font-display font-medium text-foreground">
-              Backend Developer building robust systems, secure deployments, and self-hosted cloud infrastructure.
+              Backend Developer &amp; Cloud Engineer.
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              I build backend systems that go beyond code into deployment,
-              security, and infrastructure. My work spans software engineering,
-              AI/ML, and automation, alongside a self-hosted cloud platform
-              running on Linux with Cloudflare Tunnel, Nginx, Docker, and
-              secure remote access.
+              I build backend systems and design, deploy, and operate cloud
+              infrastructure. My self-hosted platform runs production-grade
+              services on Linux using Docker, Nginx, Cloudflare Tunnel, and
+              secure remote access — the same stack used in real cloud
+              environments.
             </p>
           </div>
           <div className="space-y-2">
             <p className="text-xs text-muted-foreground font-display tracking-wide">
-              Self-hosted cloud infrastructure &middot; Live platform
+              Cloud Engineering &middot; Self-hosted infrastructure
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">

@@ -10,7 +10,7 @@ export default function Footer() {
         </div>
 
         <p className="text-muted-foreground text-xs">
-          Thanks for scrolling, that&apos;s all folks.
+          Backend Developer &amp; Cloud Engineer.
         </p>
 
         {/* Social Links */}
