@@ -68,20 +68,34 @@ export default function Hero() {
               Backend Developer, focused on building robust systems.
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Passionate about building secure systems, crafting elegant software
-              solutions, and exploring the frontiers of artificial intelligence
-              and automations. Let&apos;s build something great.
+              Passionate about building secure systems, crafting elegant
+              software solutions, and exploring the frontiers of artificial
+              intelligence and automations. Let&apos;s build something great.
             </p>
           </div>
-          <a
-            href="#about"
-            className="inline-flex items-center gap-2 text-primary font-display font-medium group text-sm"
-          >
-            My story
-            <span className="group-hover:translate-x-1 transition-transform">
-              →
-            </span>
-          </a>
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href="https://demo.vancornelio.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground font-display font-medium group text-sm hover:opacity-90 transition-opacity"
+              aria-label="Open infrastructure demo platform in new tab"
+            >
+              View Infra Demo
+              <span className="group-hover:translate-x-0.5 transition-transform">
+                ↗
+              </span>
+            </a>
+            <a
+              href="#about"
+              className="inline-flex items-center gap-2 text-primary font-display font-medium group text-sm"
+            >
+              My story
+              <span className="group-hover:translate-x-1 transition-transform">
+                →
+              </span>
+            </a>
+          </div>
         </div>
       </div>
     </header>

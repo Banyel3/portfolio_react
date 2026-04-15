@@ -22,8 +22,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Vaniel Cornelio - Backend Developer",
-  description: "Backend Developer - Software Engineering, AI/ML & Automations",
+  title: "Vaniel Cornelio - Backend Developer | Cloud & Infrastructure",
+  description:
+    "Backend developer building robust systems, secure deployments, and self-hosted cloud infrastructure.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
