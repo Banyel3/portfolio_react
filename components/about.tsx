@@ -10,15 +10,15 @@ export default function About() {
             — About
           </span>
           <h3 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-            Passionate About
+            Backend Developer,
             <br />
-            Code &amp; Innovation.
+            Building Beyond Code.
           </h3>
           <p className="text-muted-foreground text-sm max-w-md leading-relaxed">
-            I&apos;m a Computer Science student with a deep passion for software
-            engineering, artificial intelligence, and building automations. My
-            academic journey has equipped me with strong fundamentals in
-            algorithms, data structures, and system design.
+            I am a backend developer focused on building reliable systems and
+            deploying them in real-world environments. Alongside developing
+            applications, I design and operate self-hosted infrastructure that
+            runs multiple services securely on a Linux server.
           </p>
           <a
             href="mailto:cornelio.vaniel38@gmail.com"
@@ -34,14 +34,16 @@ export default function About() {
         {/* Right: Philosophy + Stats */}
         <div className="space-y-6">
           <h3 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-            Building robust backends, exploring AI frontiers, and automating the
-            mundane.
+            Designing systems that deploy, operate, and stay secure in the real
+            world.
           </h3>
           <p className="text-muted-foreground text-sm max-w-md leading-relaxed">
-            Through hands-on projects and certifications, I&apos;ve developed
-            expertise in secure coding practices, machine learning applications,
-            and full-stack development. I believe in continuous learning and
-            staying updated with the latest technologies.
+            This includes reverse proxying with Nginx, secure exposure through
+            Cloudflare Tunnel, containerized services using Docker, and system
+            management tools like Portainer and Cockpit. Through this, I&apos;ve
+            developed practical experience not just in writing backend logic,
+            but also in system design, networking, and infrastructure
+            management.
           </p>
 
           {/* Skills Quick View */}
