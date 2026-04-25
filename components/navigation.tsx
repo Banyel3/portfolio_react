@@ -12,12 +12,10 @@ export default function Navigation() {
   const [activeSection, setActiveSection] = useState("");
   useIsLocal(setIsLocal);
 
-  // Scroll detection for navbar style changes
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      // Detect active section
       const sections = ["about", "certificates", "projects", "testimonials"];
       for (const id of sections.reverse()) {
         const el = document.getElementById(id);
@@ -36,10 +34,8 @@ export default function Navigation() {
     { label: "About", href: "#about" },
     { label: "Certificates", href: "#certificates" },
     { label: "Projects", href: "#projects" },
-    { label: "Testimonials", href: "#testimonials" },
   ];
 
-  // Smooth scroll handler
   const handleSmoothScroll = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string,
@@ -57,27 +53,27 @@ export default function Navigation() {
 
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-
   useEffect(() => setMounted(true), []);
 
   return (
-    <nav
-      className={`fixed w-full z-50 top-0 left-0 px-6 py-4 md:px-12 transition-all duration-300 ${
-        scrolled
-          ? "bg-background/80 backdrop-blur-md shadow-lg border-b border-border/50"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
+    <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pt-5 px-4">
+      {/* Floating pill nav */}
+      <nav
+        className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all duration-300 ${
+          scrolled
+            ? "bg-card/90 backdrop-blur-md border-border/60 shadow-[0_8px_32px_oklch(0.12_0.04_245_/_0.45)]"
+            : "bg-card/60 backdrop-blur-sm border-border/30"
+        }`}
+      >
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-9 h-9 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold font-display text-lg group-hover:scale-110 transition-transform">
+        <Link href="/" className="flex items-center group mr-1">
+          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold font-display text-sm ring-1 ring-primary/30 group-hover:ring-primary/60 group-hover:scale-110 transition-all duration-300">
             V
           </div>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8 font-display text-sm font-medium">
+        <div className="hidden md:flex items-center gap-0.5 font-display text-sm font-medium">
           {navItems.map((item) => {
             const sectionId = item.href.replace("#", "");
             const isActive = activeSection === sectionId;
@@ -86,69 +82,85 @@ export default function Navigation() {
                 key={item.href}
                 href={item.href}
                 onClick={(e) => handleSmoothScroll(e, item.href)}
-                className={`relative transition-colors duration-200 ${
+                className={`px-3 py-1.5 rounded-full transition-all duration-200 ${
                   isActive
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-primary"
+                    ? "bg-primary/15 text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 }`}
               >
                 {item.label}
-                {isActive && (
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full" />
-                )}
               </a>
             );
           })}
+        </div>
+
+        {/* Desktop Right Controls */}
+        <div className="hidden md:flex items-center gap-2 ml-2">
           {isLocal && (
             <Link
               href="/cms"
-              className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition-all duration-200 text-sm font-medium"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-all duration-200 text-sm font-medium font-display"
             >
-              <Settings size={14} />
+              <Settings size={13} />
               CMS
             </Link>
           )}
-          {/* Theme toggle */}
           <button
             aria-label="Toggle theme"
             title="Toggle light / dark"
             onClick={() =>
               setTheme(resolvedTheme === "dark" ? "light" : "dark")
             }
-            className="flex items-center justify-center w-9 h-9 rounded-full border border-border hover:border-primary hover:text-primary transition-all duration-200"
+            className="flex items-center justify-center w-8 h-8 rounded-full border border-border/50 hover:border-primary/50 hover:text-primary hover:bg-primary/5 transition-all duration-200"
           >
             {mounted &&
               (resolvedTheme === "dark" ? (
-                <Sun size={15} />
+                <Sun size={14} />
               ) : (
-                <Moon size={15} />
+                <Moon size={14} />
               ))}
           </button>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-foreground"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
+        {/* Mobile Controls */}
+        <div className="md:hidden flex items-center gap-2 ml-2">
+          <button
+            aria-label="Toggle theme"
+            onClick={() =>
+              setTheme(resolvedTheme === "dark" ? "light" : "dark")
+            }
+            className="flex items-center justify-center w-8 h-8 rounded-full border border-border/50 hover:border-primary/50 transition-all duration-200"
+          >
+            {mounted &&
+              (resolvedTheme === "dark" ? (
+                <Sun size={14} />
+              ) : (
+                <Moon size={14} />
+              ))}
+          </button>
+          <button
+            className="flex items-center justify-center w-8 h-8 rounded-full border border-border/50 hover:border-primary/50 text-foreground transition-all duration-200"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X size={16} /> : <Menu size={16} />}
+          </button>
+        </div>
+      </nav>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Dropdown Menu */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? "max-h-96 opacity-100 mt-4" : "max-h-0 opacity-0"
+        className={`md:hidden w-full max-w-sm mt-2 overflow-hidden transition-all duration-300 ease-in-out ${
+          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="pb-4 space-y-1 bg-card/90 backdrop-blur-md rounded-lg p-4 border border-border">
+        <div className="bg-card/95 backdrop-blur-md rounded-2xl border border-border/60 p-3 space-y-1 shadow-xl">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
               onClick={(e) => handleSmoothScroll(e, item.href)}
-              className="block px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-all duration-200 font-display"
+              className="block px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl transition-all duration-200 font-display"
             >
               {item.label}
             </a>
@@ -156,43 +168,19 @@ export default function Navigation() {
           {isLocal && (
             <Link
               href="/cms"
-              className="flex items-center gap-2 px-4 py-2.5 text-sm text-primary hover:bg-muted rounded transition-all duration-200 font-display font-medium"
+              className="flex items-center gap-2 px-4 py-2.5 text-sm text-primary hover:bg-muted/50 rounded-xl transition-all duration-200 font-display font-medium"
               onClick={() => setIsOpen(false)}
             >
-              <Settings size={14} />
+              <Settings size={13} />
               CMS
             </Link>
           )}
-          <div className="px-4 pt-2">
-            <button
-              aria-label="Toggle theme"
-              onClick={() =>
-                setTheme(resolvedTheme === "dark" ? "light" : "dark")
-              }
-              className="flex items-center gap-2 px-3 py-2 rounded-md bg-muted border border-border text-sm w-full justify-center font-display"
-            >
-              {mounted &&
-                (resolvedTheme === "dark" ? (
-                  <Sun size={14} />
-                ) : (
-                  <Moon size={14} />
-                ))}
-              <span>
-                {mounted
-                  ? resolvedTheme === "dark"
-                    ? "Light Mode"
-                    : "Dark Mode"
-                  : "Theme"}
-              </span>
-            </button>
-          </div>
         </div>
       </div>
-    </nav>
+    </div>
   );
 }
 
-// Detect localhost on the client
 function useIsLocal(setIsLocal: (v: boolean) => void) {
   useEffect(() => {
     try {

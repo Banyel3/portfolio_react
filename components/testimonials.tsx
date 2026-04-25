@@ -33,7 +33,6 @@ export default function Testimonials() {
     }
   };
 
-  // Don't render the section if there are no testimonials
   if (!loading && testimonials.length === 0) {
     return null;
   }
@@ -43,27 +42,37 @@ export default function Testimonials() {
   return (
     <section id="testimonials" className="py-20 px-6 md:px-12">
       <div className="max-w-4xl mx-auto">
+        {/* Numbered section heading */}
+        <div className="flex items-center gap-4 mb-14 reveal">
+          <span className="font-mono text-xs font-semibold text-primary/50 select-none tabular-nums">05</span>
+          <h2 className="font-display font-bold text-3xl md:text-4xl text-foreground">Testimonials</h2>
+          <div className="flex-1 h-px bg-gradient-to-r from-primary/30 to-transparent ml-2" />
+        </div>
+
         {loading ? (
           <div className="text-center text-muted-foreground">
             Loading testimonials...
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center reveal" style={{ animationDelay: '0.1s' }}>
             {/* Left: Avatar / Initials */}
             <div className="md:col-span-4">
-              <div className="w-full aspect-4/5 bg-linear-to-br from-primary/20 to-accent/10 rounded-lg flex items-center justify-center">
-                <span className="text-6xl font-display font-bold text-primary/40">
-                  {activeTestimonial?.clientName
-                    ?.split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </span>
+              <div className="p-[1px] rounded-xl bg-gradient-to-br from-primary/30 to-accent/15">
+                <div className="w-full aspect-4/5 bg-gradient-to-br from-primary/15 to-accent/8 rounded-[calc(0.75rem-1px)] flex items-center justify-center
+                  shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+                  <span className="text-6xl font-display font-bold text-primary/40">
+                    {activeTestimonial?.clientName
+                      ?.split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </span>
+                </div>
               </div>
             </div>
 
             {/* Right: Quote Content */}
             <div className="md:col-span-8 space-y-8">
-              <Quote className="w-10 h-10 text-border" />
+              <Quote className="w-10 h-10 text-primary/30" />
               <p className="text-xl md:text-2xl font-display font-medium text-foreground leading-relaxed">
                 {activeTestimonial?.testimonial}
               </p>
@@ -73,7 +82,7 @@ export default function Testimonials() {
                 </h4>
                 {(activeTestimonial?.clientRole ||
                   activeTestimonial?.clientCompany) && (
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-muted-foreground mt-0.5">
                     {activeTestimonial?.clientRole}
                     {activeTestimonial?.clientRole &&
                       activeTestimonial?.clientCompany &&
@@ -87,17 +96,17 @@ export default function Testimonials() {
                 )}
               </div>
 
-              {/* Navigation dots */}
+              {/* Navigation bars */}
               {testimonials.length > 1 && (
                 <div className="flex gap-2">
                   {testimonials.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => setActiveIndex(index)}
-                      className={`w-12 h-1 rounded-full transition-colors ${
+                      className={`h-[3px] rounded-full transition-all duration-300 ${
                         index === activeIndex
-                          ? "bg-primary"
-                          : "bg-border hover:bg-muted-foreground cursor-pointer"
+                          ? "w-10 bg-primary"
+                          : "w-5 bg-border hover:bg-muted-foreground cursor-pointer"
                       }`}
                       aria-label={`View testimonial ${index + 1}`}
                     />
