@@ -4,6 +4,9 @@ import { useState } from "react";
 import { PROJECT_CATEGORIES_WITH_ALL } from "@/lib/constants";
 import ProjectModal from "./project-modal";
 
+// NOTE: Filtering out projects that are linked to featured case studies is
+// deferred. See docs/superpowers/specs/2026-05-15-portfolio-improvements-design.md §6.
+
 interface Project {
   id: string;
   title: string;
@@ -15,10 +18,14 @@ interface Project {
   images?: string[];
 }
 
+type Variant = "primary" | "overflow";
+
 export default function Projects({
   initialProjects = [],
+  variant = "primary",
 }: {
   initialProjects?: Project[];
+  variant?: Variant;
 }) {
   const projects = Array.isArray(initialProjects) ? initialProjects : [];
   const [activeCategory, setActiveCategory] = useState("All");
@@ -29,37 +36,54 @@ export default function Projects({
       ? projects
       : projects.filter((p) => p.category === activeCategory);
 
+  const isOverflow = variant === "overflow";
+
   return (
-    <section id="projects" className="py-20 px-6 md:px-12 bg-card">
+    <section
+      id={isOverflow ? "more-projects" : "projects"}
+      className={
+        isOverflow
+          ? "py-12 px-6 md:px-12 bg-card"
+          : "py-20 px-6 md:px-12 bg-card"
+      }
+    >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-          <div className="space-y-4">
-            <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">
-              — Portfolio
-            </span>
-            <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground max-w-lg">
-              All Creative Works,
-              <br />
-              Selected Projects.
+        {isOverflow ? (
+          <header className="mb-6">
+            <h2 className="font-display text-2xl font-semibold text-foreground">
+              More Projects
             </h2>
-            <p className="text-muted-foreground text-sm max-w-sm">
-              A selection of my work across backend engineering, cloud
-              infrastructure, and automation.
-            </p>
+          </header>
+        ) : (
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div className="space-y-4">
+              <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">
+                — Portfolio
+              </span>
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground max-w-lg">
+                All Creative Works,
+                <br />
+                Selected Projects.
+              </h2>
+              <p className="text-muted-foreground text-sm max-w-sm">
+                A selection of my work across backend engineering, cloud
+                infrastructure, and automation.
+              </p>
+            </div>
+            <a
+              href="https://github.com/Banyel3"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-primary font-display font-medium group"
+            >
+              Explore more
+              <span className="group-hover:translate-x-1 transition-transform">
+                →
+              </span>
+            </a>
           </div>
-          <a
-            href="https://github.com/Banyel3"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-primary font-display font-medium group"
-          >
-            Explore more
-            <span className="group-hover:translate-x-1 transition-transform">
-              →
-            </span>
-          </a>
-        </div>
+        )}
 
         <div className="mb-12 p-6 md:p-8 bg-background border border-border rounded-lg">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
