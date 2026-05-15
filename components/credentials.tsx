@@ -1,9 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 type Cert = { id: string; title: string; issuer: string; level?: string | null };
 type Badge = { id: string; title: string; issuer: string; imageUrl?: string | null; badgeUrl?: string | null };
-type Skill = { id: string; name: string; category: string; proficiency?: string | null; context?: string | null };
+type Skill = { id: string; name: string; category?: string | null; proficiency?: string | null; context?: string | null };
+
+const UNCATEGORIZED_KEY = "__uncategorized__";
 
 type Tab = "certs" | "badges" | "skills";
 
@@ -20,6 +22,22 @@ export default function Credentials({
   const certs = Array.isArray(certificates) ? certificates : [];
   const bdg = Array.isArray(badges) ? badges : [];
   const sk = Array.isArray(skills) ? skills : [];
+
+  const groupedSkills = useMemo(() => {
+    const map = new Map<string, Skill[]>();
+    for (const s of sk) {
+      const cat = s.category && s.category.trim().length > 0 ? s.category : UNCATEGORIZED_KEY;
+      if (!map.has(cat)) map.set(cat, []);
+      map.get(cat)!.push(s);
+    }
+    const entries = Array.from(map.entries());
+    entries.sort(([a], [b]) => {
+      if (a === UNCATEGORIZED_KEY) return 1;
+      if (b === UNCATEGORIZED_KEY) return -1;
+      return a.localeCompare(b);
+    });
+    return entries;
+  }, [sk]);
 
   return (
     <section id="credentials" className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
@@ -87,18 +105,32 @@ export default function Credentials({
       )}
 
       {tab === "skills" && (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {sk.map((s) => (
-            <div key={s.id} className="rounded-lg border border-border p-3">
-              <div className="font-medium">{s.name}</div>
-              {(s.proficiency || s.context) && (
-                <div className="text-xs text-muted-foreground">
-                  {[s.proficiency, s.context].filter(Boolean).join(" · ")}
+        groupedSkills.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No skills yet.</p>
+        ) : (
+          <div className="space-y-6">
+            {groupedSkills.map(([category, items]) => (
+              <div key={category}>
+                <h3 className="mb-3 text-xs uppercase tracking-widest text-muted-foreground font-display">
+                  {category === UNCATEGORIZED_KEY ? "Other" : category}
+                  <span className="ml-2 text-[10px] opacity-60">{items.length}</span>
+                </h3>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {items.map((s) => (
+                    <div key={s.id} className="rounded-lg border border-border p-3 transition hover:border-primary/50">
+                      <div className="font-medium">{s.name}</div>
+                      {(s.proficiency || s.context) && (
+                        <div className="text-xs text-muted-foreground">
+                          {[s.proficiency, s.context].filter(Boolean).join(" · ")}
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
+              </div>
+            ))}
+          </div>
+        )
       )}
     </section>
   );

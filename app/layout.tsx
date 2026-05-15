@@ -5,6 +5,7 @@ import { Space_Grotesk, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import ScrollRevealInit from "@/components/scroll-reveal-init";
+import PageLoader from "@/components/page-loader";
 import "./globals.css";
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -44,7 +45,10 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${inter.variable} font-body antialiased selection:bg-primary selection:text-primary-foreground`}
       >
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <PageLoader />
+          {children}
+        </ThemeProvider>
         <ScrollRevealInit />
         <Analytics />
       </body>

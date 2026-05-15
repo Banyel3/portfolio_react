@@ -11,8 +11,10 @@ export async function GET() {
         id: true,
         name: true,
         category: true,
+        proficiency: true,
+        context: true,
       },
-      orderBy: { category: "asc" },
+      orderBy: [{ category: "asc" }, { name: "asc" }],
     });
 
     return NextResponse.json(skills, {
@@ -32,15 +34,27 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    const name = typeof body.name === "string" ? body.name.trim() : "";
+    if (!name) {
+      return NextResponse.json({ error: "name is required" }, { status: 400 });
+    }
+    const categoryRaw = typeof body.category === "string" ? body.category.trim() : "";
+    const category = categoryRaw.length > 0 ? categoryRaw : null;
+    const proficiency =
+      typeof body.proficiency === "string" && body.proficiency.trim().length > 0
+        ? body.proficiency.trim()
+        : null;
+    const context =
+      typeof body.context === "string" && body.context.trim().length > 0
+        ? body.context.trim()
+        : null;
+
     const skill = await prisma.skill.create({
-      data: {
-        name: body.name,
-        category: body.category,
-      },
+      data: { name, category, proficiency, context },
     });
     return NextResponse.json(skill, { status: 201 });
   } catch (error) {
-    console.error("[v0] Error creating skill:", error);
+    console.error("[skills] POST error:", error);
     return NextResponse.json(
       { error: "Failed to create skill", details: String(error) },
       { status: 500 }
