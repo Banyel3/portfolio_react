@@ -78,6 +78,11 @@ export default function EditCaseStudyPage({ params }: { params: Promise<{ id: st
       />
       <Area label="Summary" value={data.summary} onSave={(v) => save({ summary: v })} />
       <Area label="Problem" value={data.problem} onSave={(v) => save({ problem: v })} />
+      <JsonArea
+        label="Decisions (JSON array)"
+        value={data.decisions}
+        onSave={(parsed) => save({ decisions: parsed })}
+      />
       <Area label="Architecture (image URL)" value={data.architecture ?? ""} onSave={(v) => save({ architecture: v })} />
       <Area label="Ops" value={data.ops ?? ""} onSave={(v) => save({ ops: v })} />
       <Area label="Reflections" value={data.reflections ?? ""} onSave={(v) => save({ reflections: v })} />
@@ -135,6 +140,43 @@ function Area({ label, value, onSave }: { label: string; value: string; onSave: 
         rows={4}
         className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
       />
+    </label>
+  );
+}
+
+function JsonArea({
+  label,
+  value,
+  onSave,
+}: {
+  label: string;
+  value: unknown;
+  onSave: (parsed: unknown) => void;
+}) {
+  const [v, setV] = useState(JSON.stringify(value ?? [], null, 2));
+  const [err, setErr] = useState<string | null>(null);
+  return (
+    <label className="block">
+      <span className="text-sm font-medium">{label}</span>
+      <textarea
+        value={v}
+        onChange={(e) => {
+          setV(e.target.value);
+          setErr(null);
+        }}
+        onBlur={() => {
+          try {
+            const parsed = JSON.parse(v);
+            onSave(parsed);
+          } catch {
+            setErr("Invalid JSON");
+          }
+        }}
+        rows={10}
+        className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm font-mono"
+        placeholder='[{ "title": "...", "chose": "...", "rejected": "...", "why": "..." }]'
+      />
+      {err && <p className="text-xs text-destructive">{err}</p>}
     </label>
   );
 }
