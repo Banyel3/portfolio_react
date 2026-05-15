@@ -32,7 +32,7 @@ model Certificate {
 }
 
 model Project {
-  id           String   @id @default(cuid())
+  id           String      @id @default(cuid())
   title        String
   description  String
   category     String // "Software Engineering", "AI/ML", "Others"
@@ -40,21 +40,52 @@ model Project {
   githubLink   String?
   liveLink     String?
   imageUrl     String?
-  images       String[] @default([]) // Array of image URLs for modal gallery
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  images       String[]    @default([]) // Array of image URLs for modal gallery
+  caseStudies  CaseStudy[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
   @@index([createdAt(sort: Desc)])
   @@index([category])
   @@map("projects")
 }
 
+model CaseStudy {
+  id           String      @id @default(cuid())
+  slug         String      @unique
+  title        String
+  role         String?
+  summary      String
+  problem      String
+  /// Array<{ title: string; chose: string; rejected?: string; why: string }>
+  decisions    Json        @default("[]")
+  architecture String?
+  ops          String?
+  reflections  String?
+  liveUrl      String?
+  repoUrl      String?
+  stack        String[]    @default([])
+  experienceId String?
+  experience   Experience? @relation(fields: [experienceId], references: [id], onDelete: SetNull)
+  projectId    String?
+  project      Project?    @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  featured     Boolean     @default(false)
+  order        Int         @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([featured, order])
+  @@map("case_studies")
+}
+
 model Skill {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  category  String // "Languages", "Frameworks", "Tools", "Concepts"
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  name        String   @unique
+  category    String // "Languages", "Frameworks", "Tools", "Concepts"
+  proficiency String?
+  context     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([category])
   @@map("skills")
@@ -81,16 +112,36 @@ model Badge {
   @@map("badges")
 }
 
-model Testimonial {
-  id            String   @id @default(cuid())
-  clientName    String
-  clientRole    String?
-  clientCompany String?
-  testimonial   String
-  date          String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+model Experience {
+  id           String        @id @default(cuid())
+  company      String
+  role         String?
+  location     String?
+  description  String
+  outcomes     String?
+  stack        String[]      @default([])
+  startDate    DateTime
+  /// Null means "Present" (current role).
+  endDate      DateTime?
+  testimonials Testimonial[]
+  caseStudies  CaseStudy[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
-  @@index([createdAt(sort: Desc)])
+  @@index([startDate(sort: Desc)])
+  @@map("experiences")
+}
+
+model Testimonial {
+  id           String     @id @default(cuid())
+  experienceId String
+  experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+  authorName   String
+  authorRole   String?
+  quote        String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([experienceId])
   @@map("testimonials")
 }
