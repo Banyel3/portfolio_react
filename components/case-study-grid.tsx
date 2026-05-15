@@ -16,7 +16,8 @@ export default function CaseStudyGrid({
   caseStudies: CaseStudyCard[];
 }) {
   if (!Array.isArray(caseStudies) || caseStudies.length === 0) {
-    return null;
+    // Anchor target preserved so hero "#work" CTA still scrolls somewhere.
+    return <section id="work" className="sr-only" aria-hidden="true" />;
   }
 
   return (

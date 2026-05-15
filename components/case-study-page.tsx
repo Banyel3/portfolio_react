@@ -1,3 +1,4 @@
+// server-only — do not add "use client"; passes raw Prisma types
 import Link from "next/link";
 
 type Decision = { title: string; chose: string; rejected?: string; why: string };
