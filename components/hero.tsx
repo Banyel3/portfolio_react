@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { AVAILABILITY, RESUME_PATH, CONTACT_BOOK_URL } from "@/lib/constants";
 import InfraStatusCard from "@/components/infra-status-card";
@@ -43,12 +42,6 @@ export default function Hero() {
             >
               View Résumé
             </a>
-            <Link
-              href="#work"
-              className="rounded-md border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition hover:border-primary"
-            >
-              See Live Infrastructure
-            </Link>
             <a
               href={CONTACT_BOOK_URL}
               className="rounded-md border border-transparent bg-transparent px-3 py-2.5 text-sm font-medium text-muted-foreground transition hover:text-foreground"
