@@ -1,27 +1,16 @@
-"use client";
+interface Badge {
+  id: string;
+  title: string;
+  badgeUrl?: string | null;
+  imageUrl?: string | null;
+}
 
-import { useEffect, useState } from "react";
-import type { Badge } from "@prisma/client";
-
-export default function Badges() {
-  const [badges, setBadges] = useState<Badge[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchBadges = async () => {
-      try {
-        const res = await fetch("/api/public/badges");
-        if (!res.ok) throw new Error("Failed to fetch");
-        const data = await res.json();
-        setBadges(data);
-      } catch (error) {
-        console.error("Error fetching badges:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBadges();
-  }, []);
+export default function Badges({
+  initialBadges = [],
+}: {
+  initialBadges?: Badge[];
+}) {
+  const badges = Array.isArray(initialBadges) ? initialBadges : [];
 
   return (
     <section id="badges" className="py-12 px-6 md:px-12 bg-card">
@@ -38,14 +27,13 @@ export default function Badges() {
           </p>
         </div>
 
-        {loading ? (
-          <div className="text-center text-muted-foreground">
-            Loading badges...
-          </div>
-        ) : (
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-6 items-center justify-center">
-            {badges.map((badge) => (
-              <div key={badge.id} className="flex items-center justify-center">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-6 items-center justify-center">
+          {badges.map((badge, i) => (
+              <div
+                key={badge.id}
+                className="flex items-center justify-center animate-fade-up"
+                style={{ animationDelay: `${i * 40}ms` }}
+              >
                 {badge.badgeUrl ? (
                   <a
                     href={badge.badgeUrl}
@@ -76,10 +64,9 @@ export default function Badges() {
                     No image
                   </div>
                 )}
-              </div>
-            ))}
-          </div>
-        )}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

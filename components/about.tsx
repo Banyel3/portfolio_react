@@ -5,7 +5,7 @@ export default function About() {
     <section id="about" className="py-20 px-6 md:px-12 bg-card">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
         {/* Left: Contact & Intro */}
-        <div className="space-y-6">
+        <div className="space-y-6 animate-fade-up">
           <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">
             — About
           </span>
@@ -14,12 +14,18 @@ export default function About() {
             <br />
             Cloud Engineer.
           </h3>
-          <p className="text-muted-foreground text-sm max-w-md leading-relaxed">
-            I build backend systems and operate self-hosted cloud
-            infrastructure. I don&apos;t just write applications — I deploy and
-            run them on real infrastructure I own and manage, using the same
-            tools and practices cloud engineers use professionally.
-          </p>
+          {/* placeholder copy — replace before publish */}
+          <div className="text-muted-foreground text-sm max-w-md leading-relaxed space-y-4">
+            <p>
+              Backend developer and cloud engineer. I optimize for systems that stay up, deploy cleanly, and explain themselves under failure.
+            </p>
+            <p>
+              Looking for a team building real distributed backends — Postgres, queues, observability, Kubernetes. I work best where I can own deploys end-to-end.
+            </p>
+            <p>
+              Outside work: home-lab tinkering, mechanical keyboards, and occasionally writing things that aren&apos;t YAML.
+            </p>
+          </div>
           <a
             href="mailto:cornelio.vaniel38@gmail.com"
             className="inline-flex items-center gap-2 text-primary font-display font-medium text-lg mt-4 group"
@@ -32,7 +38,10 @@ export default function About() {
         </div>
 
         {/* Right: Philosophy + Stats */}
-        <div className="space-y-6">
+        <div
+          className="space-y-6 animate-fade-up"
+          style={{ animationDelay: "120ms" }}
+        >
           <h3 className="text-3xl md:text-4xl font-display font-bold text-foreground">
             Real infrastructure. Not a tutorial. Not a sandbox.
           </h3>

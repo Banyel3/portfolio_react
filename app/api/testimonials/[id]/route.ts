@@ -31,11 +31,9 @@ export async function PATCH(
     const updated = await prisma.testimonial.update({
       where: { id },
       data: {
-        clientName: body.clientName,
-        clientRole: body.clientRole || null,
-        clientCompany: body.clientCompany || null,
-        testimonial: body.testimonial,
-        date: body.date || null,
+        authorName: body.authorName,
+        authorRole: body.authorRole || null,
+        quote: body.quote,
       },
     });
 
