@@ -37,6 +37,8 @@ interface ExperienceData {
   role: string | null;
   location: string | null;
   description: string;
+  outcomes: string | null;
+  stack: string[];
   startDate: string;
   endDate: string | null;
   testimonials: Testimonial[];
@@ -56,6 +58,8 @@ export default function EditExperience({
     role: "",
     location: "",
     description: "",
+    outcomes: "",
+    stack: "",
     startMonth: 1,
     startYear: CURRENT_YEAR,
     endMonth: 1,
@@ -83,6 +87,8 @@ export default function EditExperience({
           role: data.role ?? "",
           location: data.location ?? "",
           description: data.description,
+          outcomes: data.outcomes ?? "",
+          stack: (data.stack ?? []).join(", "),
           startMonth: start.getUTCMonth() + 1,
           startYear: start.getUTCFullYear(),
           endMonth: end ? end.getUTCMonth() + 1 : new Date().getMonth() + 1,
@@ -139,6 +145,11 @@ export default function EditExperience({
           role: form.role,
           location: form.location,
           description: form.description,
+          outcomes: form.outcomes,
+          stack: form.stack
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean),
           startDate,
           endDate,
         }),
@@ -326,6 +337,34 @@ export default function EditExperience({
               required
               rows={5}
               className="w-full px-4 py-2 rounded-lg bg-card border border-border focus:border-primary outline-none resize-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Outcomes (quantified result)
+            </label>
+            <input
+              type="text"
+              name="outcomes"
+              value={form.outcomes}
+              onChange={handleFormChange}
+              placeholder="Reduced API latency by 40% via caching"
+              className="w-full px-4 py-2 rounded-lg bg-card border border-border focus:border-primary outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Stack (comma-separated)
+            </label>
+            <input
+              type="text"
+              name="stack"
+              value={form.stack}
+              onChange={handleFormChange}
+              placeholder="Node.js, PostgreSQL, AWS"
+              className="w-full px-4 py-2 rounded-lg bg-card border border-border focus:border-primary outline-none"
             />
           </div>
 

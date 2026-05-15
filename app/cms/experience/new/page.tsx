@@ -31,6 +31,8 @@ export default function NewExperience() {
     role: "",
     location: "",
     description: "",
+    outcomes: "",
+    stack: "",
     startMonth: new Date().getMonth() + 1,
     startYear: CURRENT_YEAR,
     endMonth: new Date().getMonth() + 1,
@@ -80,6 +82,11 @@ export default function NewExperience() {
           role: form.role,
           location: form.location,
           description: form.description,
+          outcomes: form.outcomes,
+          stack: form.stack
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean),
           startDate,
           endDate,
         }),
@@ -235,6 +242,34 @@ export default function NewExperience() {
               rows={5}
               className="w-full px-4 py-2 rounded-lg bg-card border border-border focus:border-primary outline-none resize-none"
               placeholder="What did you do at this role?"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Outcomes (quantified result)
+            </label>
+            <input
+              type="text"
+              name="outcomes"
+              value={form.outcomes}
+              onChange={handleChange}
+              placeholder="Reduced API latency by 40% via caching"
+              className="w-full px-4 py-2 rounded-lg bg-card border border-border focus:border-primary outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Stack (comma-separated)
+            </label>
+            <input
+              type="text"
+              name="stack"
+              value={form.stack}
+              onChange={handleChange}
+              placeholder="Node.js, PostgreSQL, AWS"
+              className="w-full px-4 py-2 rounded-lg bg-card border border-border focus:border-primary outline-none"
             />
           </div>
 
