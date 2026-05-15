@@ -14,12 +14,18 @@ export default function About() {
             <br />
             Cloud Engineer.
           </h3>
-          <p className="text-muted-foreground text-sm max-w-md leading-relaxed">
-            I build backend systems and operate self-hosted cloud
-            infrastructure. I don&apos;t just write applications — I deploy and
-            run them on real infrastructure I own and manage, using the same
-            tools and practices cloud engineers use professionally.
-          </p>
+          {/* placeholder copy — replace before publish */}
+          <div className="text-muted-foreground text-sm max-w-md leading-relaxed space-y-4">
+            <p>
+              Backend developer and cloud engineer. I optimize for systems that stay up, deploy cleanly, and explain themselves under failure.
+            </p>
+            <p>
+              Looking for a team building real distributed backends — Postgres, queues, observability, Kubernetes. I work best where I can own deploys end-to-end.
+            </p>
+            <p>
+              Outside work: home-lab tinkering, mechanical keyboards, and occasionally writing things that aren&apos;t YAML.
+            </p>
+          </div>
           <a
             href="mailto:cornelio.vaniel38@gmail.com"
             className="inline-flex items-center gap-2 text-primary font-display font-medium text-lg mt-4 group"
