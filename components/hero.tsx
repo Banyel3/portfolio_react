@@ -1,4 +1,7 @@
+import Link from "next/link";
 import { Github, Linkedin, Mail } from "lucide-react";
+import { AVAILABILITY, RESUME_PATH, CONTACT_BOOK_URL } from "@/lib/constants";
+import InfraStatusCard from "@/components/infra-status-card";
 
 export default function Hero() {
   return (
@@ -20,6 +23,44 @@ export default function Hero() {
             </h1>
             <div className="w-16 h-1 bg-primary mt-4" />
           </div>
+
+          {AVAILABILITY.open && (
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary animate-fade-up">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse-dot" />
+              {AVAILABILITY.text}
+            </div>
+          )}
+
+          <div
+            className="mt-6 flex flex-wrap items-center gap-3 animate-fade-up"
+            style={{ animationDelay: "240ms" }}
+          >
+            <a
+              href={RESUME_PATH}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition hover:opacity-90"
+            >
+              View Résumé
+            </a>
+            <Link
+              href="#work"
+              className="rounded-md border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition hover:border-primary"
+            >
+              See Live Infrastructure
+            </Link>
+            <a
+              href={CONTACT_BOOK_URL}
+              className="rounded-md border border-transparent bg-transparent px-3 py-2.5 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+            >
+              Contact →
+            </a>
+          </div>
+
+          <div className="mt-4">
+            <InfraStatusCard />
+          </div>
+
           <div className="flex gap-4 pt-4">
             <a
               href="mailto:cornelio.vaniel38@gmail.com"
