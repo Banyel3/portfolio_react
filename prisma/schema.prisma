@@ -81,16 +81,33 @@ model Badge {
   @@map("badges")
 }
 
-model Testimonial {
-  id            String   @id @default(cuid())
-  clientName    String
-  clientRole    String?
-  clientCompany String?
-  testimonial   String
-  date          String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+model Experience {
+  id           String        @id @default(cuid())
+  company      String
+  role         String?
+  location     String?
+  description  String
+  startDate    DateTime
+  /// Null means "Present" (current role).
+  endDate      DateTime?
+  testimonials Testimonial[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
-  @@index([createdAt(sort: Desc)])
+  @@index([startDate(sort: Desc)])
+  @@map("experiences")
+}
+
+model Testimonial {
+  id           String     @id @default(cuid())
+  experienceId String
+  experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+  authorName   String
+  authorRole   String?
+  quote        String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([experienceId])
   @@map("testimonials")
 }

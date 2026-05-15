@@ -5,7 +5,10 @@ export default function Hero() {
     <header className="relative pt-32 pb-20 px-6 md:px-12 overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Left Column: Name & Socials */}
-        <div className="lg:col-span-5 z-10 space-y-8 order-2 lg:order-1">
+        <div
+          className="lg:col-span-5 z-10 space-y-8 order-2 lg:order-1 animate-fade-up"
+          style={{ animationDelay: "60ms" }}
+        >
           <div className="space-y-2">
             <span className="text-primary font-display font-medium tracking-wide text-sm uppercase">
               Hi, I&apos;m
@@ -47,19 +50,22 @@ export default function Hero() {
         </div>
 
         {/* Center Column: Profile Image */}
-        <div className="lg:col-span-4 relative flex justify-center order-1 lg:order-2">
-          <div className="relative z-10">
-            <div className="absolute -inset-4 bg-linear-to-tr from-primary/20 to-transparent rounded-full blur-2xl" />
+        <div className="lg:col-span-4 relative flex justify-center order-1 lg:order-2 animate-fade-in">
+          <div className="relative z-10 group">
+            <div className="absolute -inset-4 bg-linear-to-tr from-primary/20 to-transparent rounded-full blur-2xl transition-all duration-700 group-hover:from-primary/30 group-hover:blur-3xl" />
             <img
               src="/profile.png"
               alt="Vaniel Cornelio"
-              className="w-64 md:w-80 h-80 md:h-96 object-cover rounded-t-full rounded-b-3xl contrast-110 shadow-2xl border-b-4 border-primary"
+              className="w-64 md:w-80 h-80 md:h-96 object-cover rounded-t-full rounded-b-3xl contrast-110 shadow-2xl border-b-4 border-primary transition-transform duration-500 group-hover:scale-[1.02]"
             />
           </div>
         </div>
 
         {/* Right Column: Introduction */}
-        <div className="lg:col-span-3 space-y-8 z-10 order-3 flex flex-col justify-center">
+        <div
+          className="lg:col-span-3 space-y-8 z-10 order-3 flex flex-col justify-center animate-fade-up"
+          style={{ animationDelay: "180ms" }}
+        >
           <div className="space-y-4">
             <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">
               — Introduction

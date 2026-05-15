@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { PROJECT_CATEGORIES_WITH_ALL } from "@/lib/constants";
 import ProjectModal from "./project-modal";
 
@@ -15,27 +15,14 @@ interface Project {
   images?: string[];
 }
 
-export default function Projects() {
-  const [projects, setProjects] = useState<Project[]>([]);
+export default function Projects({
+  initialProjects = [],
+}: {
+  initialProjects?: Project[];
+}) {
+  const projects = Array.isArray(initialProjects) ? initialProjects : [];
   const [activeCategory, setActiveCategory] = useState("All");
-  const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
-  useEffect(() => {
-    fetchProjects();
-  }, []);
-
-  const fetchProjects = async () => {
-    try {
-      const res = await fetch("/api/projects");
-      const data = await res.json();
-      setProjects(data);
-    } catch (error) {
-      console.error("Error fetching projects:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const filteredProjects =
     activeCategory === "All"
@@ -147,17 +134,13 @@ export default function Projects() {
           ))}
         </div>
 
-        {loading ? (
-          <div className="text-center text-muted-foreground">
-            Loading projects...
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProjects.map((project) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProjects.map((project, i) => (
               <button
                 key={project.id}
                 onClick={() => setSelectedProject(project)}
-                className="group relative bg-background border border-border overflow-hidden hover:translate-y-[-5px] transition-all duration-300 hover:shadow-xl text-left w-full"
+                style={{ animationDelay: `${i * 60}ms` }}
+                className="group relative bg-background border border-border overflow-hidden hover:translate-y-[-5px] hover:border-primary/50 hover:shadow-primary/5 transition-all duration-300 hover:shadow-xl text-left w-full animate-fade-up"
               >
                 {/* Image or gradient header */}
                 {project.images && project.images.length > 0 ? (
@@ -213,7 +196,6 @@ export default function Projects() {
               </button>
             ))}
           </div>
-        )}
 
         {/* Automations Subsection */}
         <div className="mt-16 pt-12 border-t border-border/50">
