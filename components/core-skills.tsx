@@ -47,7 +47,7 @@ export default function CoreSkills() {
       {skills.map((s) => (
         <span
           key={s.id}
-          className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm"
+          className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm border border-primary/20 hover:border-primary/40 hover:bg-primary/15 transition-all duration-200 cursor-default"
         >
           {s.name}
         </span>
