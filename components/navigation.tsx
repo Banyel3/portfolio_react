@@ -18,7 +18,7 @@ export default function Navigation() {
       setScrolled(window.scrollY > 20);
 
       // Detect active section
-      const sections = ["experience", "about", "certificates", "projects"];
+      const sections = ["work", "experience", "credentials", "about", "contact"];
       for (const id of sections.reverse()) {
         const el = document.getElementById(id);
         if (el && window.scrollY >= el.offsetTop - 120) {
@@ -33,10 +33,11 @@ export default function Navigation() {
   }, []);
 
   const navItems = [
+    { label: "Work", href: "#work" },
     { label: "Experience", href: "#experience" },
+    { label: "Credentials", href: "#credentials" },
     { label: "About", href: "#about" },
-    { label: "Certificates", href: "#certificates" },
-    { label: "Projects", href: "#projects" },
+    { label: "Contact", href: "#contact" },
   ];
 
   // Smooth scroll handler
