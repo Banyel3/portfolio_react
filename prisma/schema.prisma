@@ -81,7 +81,8 @@ model CaseStudy {
 model Skill {
   id          String   @id @default(cuid())
   name        String   @unique
-  category    String // "Languages", "Frameworks", "Tools", "Concepts"
+  /// Free-text category. Null = uncategorized; UI groups by this value.
+  category    String?
   proficiency String?
   context     String?
   createdAt   DateTime @default(now())
