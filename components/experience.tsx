@@ -15,6 +15,8 @@ interface Experience {
   role?: string | null;
   location?: string | null;
   description: string;
+  outcomes: string | null;
+  stack: string[];
   startDate: string;
   endDate: string | null;
   testimonials: ExperienceTestimonial[];
@@ -108,6 +110,24 @@ export default function Experience({
                   <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
                     {exp.description}
                   </p>
+
+                  {exp.outcomes && (
+                    <p className="mt-3 text-sm font-medium text-primary">
+                      ↳ {exp.outcomes}
+                    </p>
+                  )}
+                  {exp.stack && exp.stack.length > 0 && (
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {exp.stack.slice(0, 6).map((s) => (
+                        <span
+                          key={s}
+                          className="rounded bg-muted px-2 py-0.5 text-xs text-muted-foreground"
+                        >
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
                   {exp.testimonials.length > 0 && (
                     <div className="pt-4 mt-2 border-t border-border space-y-4">

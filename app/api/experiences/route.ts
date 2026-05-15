@@ -43,6 +43,8 @@ export async function POST(request: NextRequest) {
         role: body.role || null,
         location: body.location || null,
         description: body.description,
+        outcomes: body.outcomes || null,
+        stack: body.stack ?? [],
         startDate: new Date(body.startDate),
         endDate: body.endDate ? new Date(body.endDate) : null,
       },

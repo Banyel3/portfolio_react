@@ -118,6 +118,8 @@ model Experience {
   role         String?
   location     String?
   description  String
+  outcomes     String?
+  stack        String[]      @default([])
   startDate    DateTime
   /// Null means "Present" (current role).
   endDate      DateTime?
