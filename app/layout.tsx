@@ -1,15 +1,13 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 import { Space_Grotesk, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme-provider";
-import ScrollRevealInit from "@/components/scroll-reveal-init";
 import PageLoader from "@/components/page-loader";
 import "./globals.css";
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -43,13 +41,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <body
-        className={`${spaceGrotesk.variable} ${inter.variable} font-body antialiased selection:bg-primary selection:text-primary-foreground`}
+        className={`${spaceGrotesk.variable} ${inter.variable} ${geistMono.variable} font-body antialiased selection:bg-primary selection:text-primary-foreground`}
       >
         <ThemeProvider>
           <PageLoader />
           {children}
         </ThemeProvider>
-        <ScrollRevealInit />
         <Analytics />
       </body>
     </html>

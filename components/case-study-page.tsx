@@ -7,6 +7,7 @@ export type CaseStudyPageProps = {
   title: string;
   slug: string;
   role: string | null;
+  status?: "ACTIVE" | "WIP" | "DISCONTINUED";
   summary: string;
   problem: string;
   decisions: Decision[];
@@ -22,11 +23,21 @@ export default function CaseStudyPage(props: CaseStudyPageProps) {
   return (
     <article className="mx-auto max-w-3xl px-6 py-12 sm:py-20">
       <Link href="/#work" className="text-sm text-muted-foreground hover:underline">
-        ← All case studies
+        ← All projects
       </Link>
 
       <header className="mt-4 mb-10">
         <h1 className="font-display text-4xl font-bold sm:text-5xl">{props.title}</h1>
+        {props.status === "WIP" && (
+          <p className="mt-3 inline-block rounded-md border border-amber-400/40 bg-amber-400/10 px-2 py-0.5 font-mono text-[11px] font-medium tracking-[0.04em] text-amber-300">
+            Work in progress
+          </p>
+        )}
+        {props.status === "DISCONTINUED" && (
+          <p className="mt-3 inline-block rounded-md border border-border bg-muted px-2 py-0.5 font-mono text-[11px] font-medium tracking-[0.04em] text-muted-foreground">
+            Discontinued
+          </p>
+        )}
         {props.role && (
           <p className="mt-2 text-sm text-muted-foreground">{props.role}</p>
         )}
