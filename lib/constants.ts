@@ -5,31 +5,28 @@ export const PROJECT_CATEGORIES = [
   "Others",
 ] as const;
 
-// Categories with "All" option for filtering (used in portfolio display)
-export const PROJECT_CATEGORIES_WITH_ALL = [
-  "All",
-  ...PROJECT_CATEGORIES,
-] as const;
-
 export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
 
 export const AVAILABILITY = {
   open: true,
-  text: "Open to roles — available June 2026",
+  text: "Open to backend and cloud roles",
 } as const;
 
-export type HighlightTile = {
-  label: string;
-  value: string;
-  unit?: string;
-};
-
-// All three tiles MUST be verifiable. Drop a tile rather than fake a number.
-export const HIGHLIGHTS: HighlightTile[] = [
-  { label: "Demo uptime (30d)", value: "—", unit: "%" },
-  { label: "Production deploys", value: "—" },
-  { label: "Services self-hosted", value: "—" },
-];
+// Live infrastructure panel in the hero. Status and latency are probed
+// server-side every 60 s (see components/infra-status-card.tsx). The rest are
+// hand-maintained facts: leave a value null and the row shows "—" rather than a
+// made-up number.
+export const INFRA = {
+  host: "demo.vancornelio.dev",
+  url: "https://demo.vancornelio.dev",
+  uptime30d: null as number | null, // e.g. 99.9
+  services: null as number | null, // containers running behind nginx
+  lastDeploy: null as string | null, // e.g. "2d ago"
+  stack: ["Ubuntu Server", "Docker", "Nginx", "Cloudflare Tunnel", "Portainer", "Cockpit"],
+} as const;
 
 export const RESUME_PATH = "/resume.pdf";
-export const CONTACT_BOOK_URL = "mailto:gamerofgames76@gmail.com?subject=Backend%2FCloud%20opportunity";
+export const CONTACT_BOOK_URL = "mailto:cornelio.vaniel38@gmail.com?subject=Backend%2FCloud%20opportunity";
+export const CONTACT_EMAIL = "cornelio.vaniel38@gmail.com";
+export const GITHUB_URL = "https://github.com/Banyel3";
+export const LINKEDIN_URL = "https://www.linkedin.com/in/vaniel-john-cornelio-4ba8aa278/";

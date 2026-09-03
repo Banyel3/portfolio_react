@@ -1,206 +1,210 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Menu, X, Settings, Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
+import { RESUME_PATH } from "@/lib/constants";
+
+const NAV_ITEMS = [
+  { label: "Experience", href: "#experience" },
+  { label: "Projects", href: "#work" },
+  { label: "Credentials", href: "#credentials" },
+  { label: "About", href: "#about" },
+  { label: "Contact", href: "#contact" },
+];
+const SECTION_IDS = NAV_ITEMS.map((i) => i.href.slice(1));
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLocal, setIsLocal] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
-  useIsLocal(setIsLocal);
+  const [mounted, setMounted] = useState(false);
+  const { setTheme, resolvedTheme } = useTheme();
 
-  // Scroll detection for navbar style changes
+  const linksRef = useRef<HTMLDivElement>(null);
+  const [underline, setUnderline] = useState<{ x: number; w: number } | null>(null);
+
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-
-      // Detect active section
-      const sections = ["work", "experience", "credentials", "about", "contact"];
-      for (const id of sections.reverse()) {
-        const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 120) {
-          setActiveSection(id);
-          break;
-        }
-      }
-      if (window.scrollY < 200) setActiveSection("");
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    setMounted(true);
+    const host = window.location.hostname;
+    setIsLocal(host === "localhost" || host === "127.0.0.1");
   }, []);
 
-  const navItems = [
-    { label: "Work", href: "#work" },
-    { label: "Experience", href: "#experience" },
-    { label: "Credentials", href: "#credentials" },
-    { label: "About", href: "#about" },
-    { label: "Contact", href: "#contact" },
-  ];
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20);
+      if (window.scrollY < 200) return setActiveSection("");
+      // Bottom of page: the last section can never reach the top threshold, so
+      // treat "scrolled to the end" as the last section (Contact) being active.
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (atBottom) return setActiveSection(SECTION_IDS[SECTION_IDS.length - 1]);
+      for (const id of [...SECTION_IDS].reverse()) {
+        const el = document.getElementById(id);
+        if (el && window.scrollY >= el.offsetTop - 140) return setActiveSection(id);
+      }
+      setActiveSection("");
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-  // Smooth scroll handler
-  const handleSmoothScroll = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string,
-  ) => {
+  // One underline element slides between links (FLIP by measured rects).
+  useLayoutEffect(() => {
+    const wrap = linksRef.current;
+    if (!wrap) return;
+    const el = wrap.querySelector<HTMLAnchorElement>(`a[href="#${activeSection}"]`);
+    if (!el) return setUnderline(null);
+    const a = el.getBoundingClientRect();
+    const b = wrap.getBoundingClientRect();
+    setUnderline({ x: a.left - b.left, w: a.width });
+  }, [activeSection]);
+
+  const smoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const element = document.querySelector(href);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-      setIsOpen(false);
-    }
+    const el = document.querySelector(href);
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top, behavior: "smooth" });
+    setIsOpen(false);
   };
 
-  const { setTheme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
+  const ThemeIcon = resolvedTheme === "dark" ? Sun : Moon;
 
   return (
     <nav
-      className={`fixed w-full z-50 top-0 left-0 px-6 py-4 md:px-12 transition-all duration-300 ${
-        scrolled
-          ? "bg-background/80 backdrop-blur-md shadow-lg border-b border-border/50"
-          : "bg-transparent"
+      className={`fixed left-0 top-0 z-50 w-full transition-[background-color,border-color,backdrop-filter] duration-300 ${
+        scrolled || isOpen
+          ? "border-b border-border/60 bg-background/85 backdrop-blur-md"
+          : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-9 h-9 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold font-display text-lg group-hover:scale-110 transition-transform">
+      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-6 md:px-12">
+        <Link href="/" className="group flex items-center gap-2.5">
+          <span className="grid h-[34px] w-[34px] place-items-center rounded-full bg-primary font-display text-base font-bold text-primary-foreground transition-transform group-hover:scale-105">
             V
-          </div>
+          </span>
+          <span className="hidden font-display text-sm font-medium tracking-[0.01em] text-foreground sm:inline">
+            Vaniel Cornelio
+          </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8 font-display text-sm font-medium">
-          {navItems.map((item) => {
-            const sectionId = item.href.replace("#", "");
-            const isActive = activeSection === sectionId;
+        <div ref={linksRef} className="relative hidden items-center gap-7 md:flex">
+          {NAV_ITEMS.map((item) => {
+            const active = activeSection === item.href.slice(1);
             return (
               <a
                 key={item.href}
                 href={item.href}
-                onClick={(e) => handleSmoothScroll(e, item.href)}
-                className={`relative transition-colors duration-200 ${
-                  isActive
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-primary"
+                onClick={(e) => smoothScroll(e, item.href)}
+                className={`py-1.5 text-sm font-medium transition-colors duration-200 ${
+                  active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {item.label}
-                {isActive && (
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full" />
-                )}
               </a>
             );
           })}
+          <span
+            aria-hidden
+            className="absolute -bottom-0.5 left-0 h-0.5 rounded-full bg-accent transition-[transform,width,opacity] duration-[250ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+            style={{
+              width: underline?.w ?? 0,
+              transform: `translateX(${underline?.x ?? 0}px)`,
+              opacity: underline ? 1 : 0,
+            }}
+          />
+        </div>
+
+        <div className="hidden items-center gap-2.5 md:flex">
           {isLocal && (
             <Link
               href="/cms"
-              className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition-all duration-200 text-sm font-medium"
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary/10 px-3 text-sm font-medium text-primary transition-colors hover:bg-primary/20"
             >
               <Settings size={14} />
               CMS
             </Link>
           )}
-          {/* Theme toggle */}
           <button
+            type="button"
             aria-label="Toggle theme"
-            title="Toggle light / dark"
-            onClick={() =>
-              setTheme(resolvedTheme === "dark" ? "light" : "dark")
-            }
-            className="flex items-center justify-center w-9 h-9 rounded-full border border-border hover:border-primary hover:text-primary transition-all duration-200"
+            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+            className="grid h-9 w-9 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
           >
-            {mounted &&
-              (resolvedTheme === "dark" ? (
-                <Sun size={15} />
-              ) : (
-                <Moon size={15} />
-              ))}
+            {mounted && <ThemeIcon size={15} className="transition-transform duration-300 group-hover:rotate-90" />}
           </button>
+          <a
+            href={RESUME_PATH}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-9 items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground transition-colors hover:border-primary"
+          >
+            Résumé
+          </a>
         </div>
 
-        {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-foreground"
-          onClick={() => setIsOpen(!isOpen)}
+          type="button"
+          className="grid h-10 w-10 place-items-center rounded-lg border border-border text-foreground md:hidden"
+          onClick={() => setIsOpen((v) => !v)}
           aria-label="Toggle menu"
+          aria-expanded={isOpen}
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
-      {/* Mobile Navigation */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? "max-h-96 opacity-100 mt-4" : "max-h-0 opacity-0"
+        className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] md:hidden ${
+          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         }`}
       >
-        <div className="pb-4 space-y-1 bg-card/90 backdrop-blur-md rounded-lg p-4 border border-border">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={(e) => handleSmoothScroll(e, item.href)}
-              className="block px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-all duration-200 font-display"
-            >
-              {item.label}
-            </a>
-          ))}
-          {isLocal && (
-            <Link
-              href="/cms"
-              className="flex items-center gap-2 px-4 py-2.5 text-sm text-primary hover:bg-muted rounded transition-all duration-200 font-display font-medium"
-              onClick={() => setIsOpen(false)}
-            >
-              <Settings size={14} />
-              CMS
-            </Link>
-          )}
-          <div className="px-4 pt-2">
-            <button
-              aria-label="Toggle theme"
-              onClick={() =>
-                setTheme(resolvedTheme === "dark" ? "light" : "dark")
-              }
-              className="flex items-center gap-2 px-3 py-2 rounded-md bg-muted border border-border text-sm w-full justify-center font-display"
-            >
-              {mounted &&
-                (resolvedTheme === "dark" ? (
-                  <Sun size={14} />
-                ) : (
-                  <Moon size={14} />
-                ))}
-              <span>
-                {mounted
-                  ? resolvedTheme === "dark"
-                    ? "Light Mode"
-                    : "Dark Mode"
-                  : "Theme"}
-              </span>
-            </button>
+        <div className="min-h-0">
+          <div className="space-y-1 px-6 pb-5">
+            {NAV_ITEMS.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={(e) => smoothScroll(e, item.href)}
+                className="block rounded-lg px-3 py-2.5 text-[15px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              >
+                {item.label}
+              </a>
+            ))}
+            <div className="flex gap-2 pt-2">
+              <a
+                href={RESUME_PATH}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-11 flex-1 items-center justify-center rounded-lg bg-primary text-sm font-medium text-primary-foreground"
+              >
+                Résumé
+              </a>
+              <button
+                type="button"
+                aria-label="Toggle theme"
+                onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+                className="grid h-11 w-11 place-items-center rounded-lg border border-border text-muted-foreground"
+              >
+                {mounted && <ThemeIcon size={16} />}
+              </button>
+              {isLocal && (
+                <Link
+                  href="/cms"
+                  onClick={() => setIsOpen(false)}
+                  className="grid h-11 w-11 place-items-center rounded-lg bg-primary/10 text-primary"
+                  aria-label="CMS"
+                >
+                  <Settings size={16} />
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>
     </nav>
   );
-}
-
-// Detect localhost on the client
-function useIsLocal(setIsLocal: (v: boolean) => void) {
-  useEffect(() => {
-    try {
-      const host = window?.location?.hostname;
-      setIsLocal(host === "localhost" || host === "127.0.0.1");
-    } catch {
-      setIsLocal(false);
-    }
-  }, [setIsLocal]);
 }

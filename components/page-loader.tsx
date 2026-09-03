@@ -72,8 +72,8 @@ export default function PageLoader() {
       role="status"
       aria-live="polite"
       aria-label={done ? "Loaded" : "Loading site"}
-      className={`fixed inset-0 z-[200] grid place-items-center bg-background transition-opacity duration-500 ${
-        done ? "pointer-events-none opacity-0" : "opacity-100"
+      className={`fixed inset-0 z-[200] grid place-items-center bg-background transition-[clip-path] duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        done ? "pointer-events-none [clip-path:inset(0_0_100%_0)]" : "[clip-path:inset(0)]"
       }`}
     >
       <div

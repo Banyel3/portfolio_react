@@ -52,6 +52,7 @@ export default async function WorkSlugPage({
       title={cs.title}
       slug={cs.slug}
       role={cs.role}
+      status={cs.status}
       summary={cs.summary}
       problem={cs.problem}
       decisions={decisions}

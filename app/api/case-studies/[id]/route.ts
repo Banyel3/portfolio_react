@@ -25,7 +25,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     const passthrough = [
       "slug", "title", "role", "summary", "problem", "decisions",
       "architecture", "ops", "reflections", "liveUrl", "repoUrl",
-      "stack", "experienceId", "projectId", "featured", "order",
+      "stack", "experienceId", "projectId", "featured", "order", "status",
     ] as const;
     for (const key of passthrough) {
       if (key in body) data[key] = body[key];

@@ -1,29 +1,23 @@
-import { CONTACT_BOOK_URL } from "@/lib/constants";
+import ContactForm from "@/components/contact-form";
 
 export default function ContactCta() {
   return (
-    <section id="contact" className="mx-auto max-w-3xl px-6 py-16 sm:py-24 text-center">
-      <h2 className="font-display text-3xl font-semibold sm:text-4xl">
-        Let&apos;s build something.
+    <section id="contact" className="relative mx-auto max-w-3xl px-6 pb-28 pt-32 text-center md:pb-32 md:pt-36">
+      <span
+        aria-hidden
+        className="absolute left-1/2 top-0 h-20 w-px -translate-x-1/2 bg-gradient-to-b from-transparent to-accent"
+      />
+      <h2 className="reveal font-display text-5xl font-semibold leading-[1.02] tracking-[-0.04em] text-foreground md:text-[64px]">
+        Let&apos;s build something
+        <br />
+        <span className="text-muted-foreground/60">that stays up.</span>
       </h2>
-      <p className="mx-auto mt-3 max-w-prose text-muted-foreground">
-        Backend systems, cloud infra, internal tooling — happy to talk about your stack.
+      <p className="mx-auto mt-[18px] max-w-[520px] text-[17px] leading-relaxed text-muted-foreground">
+        Backend systems, cloud infra, internal tooling. Tell me about your stack and I will reply
+        within a day.
       </p>
-      <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <a
-          href={CONTACT_BOOK_URL}
-          className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90"
-        >
-          Book a call
-        </a>
-        <a
-          href="https://github.com/Banyel3"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-md border border-border px-5 py-2.5 text-sm font-medium hover:border-primary"
-        >
-          GitHub
-        </a>
+      <div className="mt-9">
+        <ContactForm />
       </div>
     </section>
   );

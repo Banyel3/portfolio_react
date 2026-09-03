@@ -34,11 +34,14 @@ Single-page personal portfolio with an inline CMS, all in one Next.js 16 App Rou
 
 ### Required environment variables
 
-- `DATABASE_URL` — Neon Postgres connection string.
+- `DATABASE_URL` — Neon Postgres connection string. Append `&connect_timeout=15&pool_timeout=20`: Neon suspends idle computes and the first connections after a wake take 8–11 s, which otherwise surfaces as P1001 "Can't reach database server" or P2024 pool timeout. `app/page.tsx` also warms one connection before its parallel queries and retries connection errors once; in production a still-failing query throws so ISR keeps the last good page.
 - `SHADOW_DATABASE_URL` — optional, only for `prisma migrate` against Neon (separate branch).
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` — public Supabase client.
 - `SUPABASE_SERVICE_ROLE_KEY` — server-only, used by upload routes. Never expose.
 - `SUPABASE_BUCKET_NAME` — defaults to `projects`.
+- `RESEND_API_KEY` — server-only, used by `app/api/contact/route.ts` to email the contact form. Without it the form returns 503 and shows the mailto fallback.
+- `RESEND_FROM` — optional sender (`Name <you@yourdomain>`); defaults to Resend's `onboarding@resend.dev`, which can only deliver to the Resend account owner's address.
+- `CONTACT_TO` — optional recipient; defaults to `CONTACT_EMAIL` in `lib/constants.ts`.
 
 ### Conventions
 
@@ -47,3 +50,13 @@ Single-page personal portfolio with an inline CMS, all in one Next.js 16 App Rou
 - Fonts: `Space_Grotesk` (display) and `Inter` (body) are loaded in `app/layout.tsx` via CSS variables `--font-display` / `--font-body`. Theme handled by `next-themes` through `components/theme-provider.tsx`.
 - Both `pnpm-lock.yaml` and `package-lock.json` are committed; `pnpm-lock.yaml` is the source of truth — keep `package-lock.json` in sync or remove it if switching tools.
 - The site identity is "Backend Developer & Cloud Engineer" (see `app/layout.tsx` metadata and recent commits). Match copy and tone when editing public-facing strings.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

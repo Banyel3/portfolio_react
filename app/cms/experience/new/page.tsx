@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -39,6 +39,16 @@ export default function NewExperience() {
     endYear: CURRENT_YEAR,
     isCurrent: false,
   });
+
+  // "Add role" from the list page prefills the company so multiple roles at
+  // one company group together on the public site (grouping is by company name).
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const company = q.get("company");
+    if (company) {
+      setForm((prev) => ({ ...prev, company, location: q.get("location") ?? prev.location }));
+    }
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<

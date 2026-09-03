@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
         projectId: body.projectId || null,
         featured: Boolean(body.featured),
         order: Number(body.order ?? 0),
+        ...(body.status ? { status: body.status } : {}),
       },
     });
     return NextResponse.json(caseStudy, { status: 201 });
