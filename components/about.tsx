@@ -20,7 +20,11 @@ export default function About() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/profile.png" alt="" className="h-full w-full object-cover grayscale contrast-[1.05]" />
-            <div className="absolute inset-0 bg-primary opacity-80 mix-blend-color" />
+            {/* Light: fixed navy duotone, multiply — keeps the photo's own tones instead of
+                flattening it to a solid hue. Dark: unchanged (primary/color-blend already reads
+                fine against the dark card). Deliberately not tied to --primary in light mode so
+                a future accent-color change can't turn a face blue again. */}
+            <div className="absolute inset-0 opacity-40 mix-blend-multiply bg-[oklch(0.28_0.07_248)] dark:bg-primary dark:opacity-80 dark:mix-blend-color" />
           </div>
           <span className="absolute bottom-3.5 left-3.5 z-10 rounded-md border border-border bg-background/70 px-2.5 py-1.5 font-mono text-[11px] font-medium text-foreground backdrop-blur">
             vaniel@homelab:~$
