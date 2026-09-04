@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Menu, X, Settings, Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { RESUME_PATH } from "@/lib/constants";
+import LogoMark from "@/components/logo-mark";
 
 const NAV_ITEMS = [
   { label: "Experience", href: "#experience" },
@@ -83,8 +84,8 @@ export default function Navigation() {
     >
       <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-6 md:px-12">
         <Link href="/" className="group flex items-center gap-2.5">
-          <span className="grid h-[34px] w-[34px] place-items-center rounded-full bg-primary font-display text-base font-bold text-primary-foreground transition-transform group-hover:scale-105">
-            V
+          <span className="block h-[34px] w-[34px] shrink-0 overflow-hidden rounded-[22%] transition-transform group-hover:scale-105">
+            <LogoMark />
           </span>
           <span className="hidden font-display text-sm font-medium tracking-[0.01em] text-foreground sm:inline">
             Vaniel Cornelio
