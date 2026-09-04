@@ -22,7 +22,7 @@ Single-page personal portfolio with an inline CMS, all in one Next.js 16 App Rou
 ### Three concerns, one app
 
 1. **Public site** — `app/page.tsx` composes `Hero → About → Certificates → Badges → Projects → Testimonials → Footer` from `components/*.tsx`. These are client components that fetch from the API routes.
-2. **CMS** — `app/cms/` is an unauthenticated admin UI (one route per entity: `badges`, `certificates`, `projects`, `skills`, `testimonials`) for creating/editing content. There is no auth gate; do not deploy publicly without adding one.
+2. **CMS** — `app/cms/` is an unauthenticated admin UI (one route per entity: `badges`, `certificates`, `projects`, `skills`, `testimonials`) for creating/editing content. It has no auth gate, so `proxy.ts` blocks the whole admin surface (`/cms/*` and every `/api/*` route except `/api/contact` and `/api/public/*`) with a 404 whenever `NODE_ENV === "production"` — i.e. the CMS exists only under `pnpm dev`. There is deliberately no env-var override: Next inlines `process.env` into the proxy bundle at build time, so a runtime flag would not work. Adding real auth is what would let the CMS be reachable in production.
 3. **REST API** — `app/api/<entity>/route.ts` (list + create) and `app/api/<entity>/[id]/route.ts` (read/update/delete). `app/api/public/badges/` is a read-only public variant. All list routes set `revalidate = 60` and `Cache-Control: s-maxage=60, stale-while-revalidate=300`.
 
 ### Data layer
