@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import CaseStudyPage, {
   type CaseStudyPageProps,
@@ -84,7 +84,8 @@ export default async function WorkSlugPage({
 }) {
   const { slug } = await params;
   const cs = await findCaseStudy(slug);
-  if (!cs) notFound();
+  // Unknown or unpublished slug: home, same as any other dead URL.
+  if (!cs) redirect("/");
 
   const decisions = Array.isArray(cs.decisions)
     ? (cs.decisions as CaseStudyPageProps["decisions"])
