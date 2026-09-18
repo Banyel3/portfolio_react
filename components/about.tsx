@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { CONTACT_EMAIL } from "@/lib/constants";
 
 const FACTS = [
@@ -12,14 +13,24 @@ export default function About() {
       <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[380px_1fr] lg:gap-[72px]">
         <div className="group relative aspect-square overflow-hidden rounded-2xl border border-border bg-card">
           {/* Sharp photo underneath; the tinted grayscale copy above fades out on hover (opacity only, no filter animation) */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/profile.png" alt="Vaniel Cornelio" className="h-full w-full object-cover" />
+          <Image
+            src="/profile.png"
+            alt="Vaniel Cornelio"
+            fill
+            sizes="(max-width: 1024px) 100vw, 380px"
+            className="object-cover"
+          />
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-0"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/profile.png" alt="" className="h-full w-full object-cover grayscale contrast-[1.05]" />
+            <Image
+              src="/profile.png"
+              alt=""
+              fill
+              sizes="(max-width: 1024px) 100vw, 380px"
+              className="object-cover grayscale contrast-[1.05]"
+            />
             {/* Light: fixed navy duotone, multiply — keeps the photo's own tones instead of
                 flattening it to a solid hue. Dark: unchanged (primary/color-blend already reads
                 fine against the dark card). Deliberately not tied to --primary in light mode so

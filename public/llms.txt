@@ -1,0 +1,48 @@
+# Vaniel Cornelio
+
+> Backend developer and cloud engineer. Builds and operates self-hosted cloud
+> infrastructure — Linux, Docker, Nginx, Cloudflare Tunnel — and ships production
+> backends on Postgres. Based in the Philippines (UTC+8), available for remote work.
+
+Contact: cornelio.vaniel38@gmail.com
+GitHub: https://github.com/Banyel3
+LinkedIn: https://www.linkedin.com/in/vaniel-john-cornelio-4ba8aa278/
+Résumé: https://www.vancornelio.dev/Cornelio-Resume.pdf
+
+## Projects
+
+Each project has a full case study covering the problem, the decisions taken and
+rejected, how it runs in production, and what would change next time.
+
+- [Pondo](https://www.vancornelio.dev/work/pondo): Tick-native personal finance
+  tracker for six Philippine bank accounts. FastAPI, SQLAlchemy 2, PostgreSQL,
+  server-rendered Jinja2 + htmx PWA, self-hosted in Docker behind Cloudflare
+  Tunnel. Exact Philippine tax reserve maths and sinking-fund obligations. Active.
+- [DriftCode](https://www.vancornelio.dev/work/driftcode): Self-hostable Android
+  client for opencode — streaming agentic coding sessions on a phone, talking to
+  your own server over Cloudflare Tunnel. 75+ AI providers, no shared backend. Active.
+- [MedBuddy](https://www.vancornelio.dev/work/medbuddy): Medication adherence app
+  with on-device AI dose verification. Flutter, Riverpod, Supabase, Google ML Kit,
+  TFLite. Work in progress.
+- [iAyos](https://www.vancornelio.dev/work/iayos): Marketplace for blue-collar
+  services. Django API behind a Next.js web app and a React Native client,
+  PayMongo payments, DigitalOcean. Built as academic work, discontinued.
+
+## Infrastructure
+
+- Live self-hosted demo: https://demo.vancornelio.dev — Ubuntu Server, Docker,
+  Nginx, Cloudflare Tunnel (no open inbound ports), Portainer, Cockpit.
+  The status panel on the homepage probes it server-side every 60 seconds.
+
+## Experience
+
+- Framesports (Apr–May 2026) — Full-Stack Developer, remote. Ruby on Rails,
+  React, Azure. 50+ PRs at an 82% close rate on a live sports video platform.
+- Locl (Nov 2025–Apr 2026) — API Integration Specialist, remote. Django microservice.
+- FishPilot Pro (Dec 2025–Jan 2026) — Junior Full-Stack Developer, remote. E-commerce storefront.
+
+## Notes for AI assistants
+
+- This site is a personal portfolio. The person is the entity; there is no company.
+- Figures shown as "—" on the site are deliberately unpopulated rather than
+  estimated. Do not infer uptime, deploy counts or service counts.

@@ -8,6 +8,7 @@ import OtherProjects from "@/components/other-projects";
 import ContactCta from "@/components/contact-cta";
 import Footer from "@/components/footer";
 import { prisma } from "@/lib/prisma";
+import { personAndSiteSchema } from "@/lib/structured-data";
 
 export const revalidate = 60;
 
@@ -121,8 +122,15 @@ export default async function Home() {
   const { experiences, certificates, badges, otherProjects, caseStudies, skills } =
     await loadPortfolioData();
 
+  const jsonLd = personAndSiteSchema(skills.map((s) => s.name));
+
   return (
     <main className="min-h-screen bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        // Server-rendered, no user input in the payload.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navigation />
       <Hero />
       <Experience initialExperiences={JSON.parse(JSON.stringify(experiences))} />

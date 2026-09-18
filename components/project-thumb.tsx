@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 // Server-safe (no hooks). One layout for every project surface:
 // browser-chrome strip + glyph / category / tech overlay. The screenshot (when
 // one exists) sits behind it blurred and dimmed; on parent `.group` hover or
@@ -83,23 +85,30 @@ export default function ProjectThumb({
 
       {src ? (
         <>
-          {/* Sharp copy underneath: revealed as the layers above fade out */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={src}
-            alt={title}
-            loading="lazy"
-            className="absolute inset-x-0 bottom-0 top-7 h-[calc(100%-1.75rem)] w-full object-cover object-top"
-          />
+          {/* Sharp copy underneath: revealed as the layers above fade out.
+              next/image resizes the source (the originals are up to 3408px wide
+              for a ~600px slot) and serves AVIF/WebP. Both layers share one src,
+              so the browser fetches once and reuses it for the blurred copy. */}
+          <div className="absolute inset-x-0 bottom-0 top-7">
+            <Image
+              src={src}
+              alt={title}
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover object-top"
+            />
+          </div>
           {/* Static blurred copy + scrim: fade out together on hover */}
           <div aria-hidden className={`absolute inset-x-0 bottom-0 top-7 overflow-hidden ${FADE_OUT}`}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={src}
-              alt=""
-              loading="lazy"
-              className="h-full w-full scale-110 object-cover object-top blur-[6px]"
-            />
+            <div className="absolute inset-0 scale-110">
+              <Image
+                src={src}
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover object-top blur-[6px]"
+              />
+            </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/45 to-black/30" />
           </div>
         </>
