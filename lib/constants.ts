@@ -9,7 +9,7 @@ export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
 
 export const AVAILABILITY = {
   open: true,
-  text: "Open to backend and cloud roles",
+  text: "Open to backend and infrastructure roles",
 } as const;
 
 // Live infrastructure panel in the hero. Status and latency are probed
@@ -32,11 +32,15 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.vancorn
 
 export const PERSON = {
   name: "Vaniel Cornelio",
-  jobTitle: "Backend Developer & Cloud Engineer",
+  jobTitle: "Backend & Infrastructure Developer",
   location: "Philippines",
 } as const;
 
-export const CONTACT_BOOK_URL = "mailto:cornelio.vaniel38@gmail.com?subject=Backend%2FCloud%20opportunity";
+// Shown under the certifications list. A study goal, not a credential — it is
+// rendered as "Currently learning", never as a certificate item.
+export const CURRENTLY_LEARNING = "AWS Certified Solutions Architect – Associate";
+
+export const CONTACT_BOOK_URL = "mailto:cornelio.vaniel38@gmail.com?subject=Backend%2FInfrastructure%20opportunity";
 export const CONTACT_EMAIL = "cornelio.vaniel38@gmail.com";
 export const GITHUB_URL = "https://github.com/Banyel3";
 export const LINKEDIN_URL = "https://www.linkedin.com/in/vaniel-john-cornelio-4ba8aa278/";

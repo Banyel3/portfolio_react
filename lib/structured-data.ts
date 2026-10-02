@@ -25,7 +25,7 @@ export function personAndSiteSchema(skills: string[] = []) {
         name: PERSON.name,
         jobTitle: PERSON.jobTitle,
         description:
-          "Backend developer and cloud engineer building and operating self-hosted cloud infrastructure.",
+          "Backend developer building and operating production backends and self-hosted infrastructure.",
         url: SITE_URL,
         image: `${SITE_URL}/profile.png`,
         email: `mailto:${CONTACT_EMAIL}`,

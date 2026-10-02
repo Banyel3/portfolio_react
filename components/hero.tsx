@@ -51,7 +51,7 @@ export default function Hero() {
             className="animate-rise mt-5 font-display text-xl font-medium leading-snug tracking-[-0.01em] text-foreground sm:text-2xl"
             style={{ animationDelay: "220ms" }}
           >
-            Backend Developer <span className="text-accent">&amp;</span> Cloud Engineer
+            Backend <span className="text-accent">&amp;</span> Infrastructure Developer
           </p>
 
           <p

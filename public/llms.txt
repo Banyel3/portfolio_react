@@ -1,8 +1,8 @@
 # Vaniel Cornelio
 
-> Backend developer and cloud engineer. Builds and operates self-hosted cloud
-> infrastructure — Linux, Docker, Nginx, Cloudflare Tunnel — and ships production
-> backends on Postgres. Based in the Philippines (UTC+8), available for remote work.
+> Backend and infrastructure developer. Builds and operates production backends
+> and self-hosted infrastructure — PostgreSQL, Docker, Nginx, Linux, Cloudflare
+> Tunnel, Tailscale. Based in the Philippines (UTC+8), available for remote work.
 
 Contact: cornelio.vaniel38@gmail.com
 GitHub: https://github.com/Banyel3
@@ -32,16 +32,30 @@ rejected, how it runs in production, and what would change next time.
 - Live self-hosted demo: https://demo.vancornelio.dev — Ubuntu Server, Docker,
   Nginx, Cloudflare Tunnel (no open inbound ports), Portainer, Cockpit.
   The status panel on the homepage probes it server-side every 60 seconds.
+- Tailscale for private access across self-hosted machines.
 
 ## Experience
 
-- Framesports (Apr–May 2026) — Full-Stack Developer, remote. Ruby on Rails,
-  React, Azure. 50+ PRs at an 82% close rate on a live sports video platform.
-- Locl (Nov 2025–Apr 2026) — API Integration Specialist, remote. Django microservice.
+- Tru Creative Agency (Jun 2026–present) — Lead Full Stack Developer, remote.
+  Brought on for a single project, then handed more; now the sole developer
+  across six client and internal projects. Owns architecture and technical
+  decisions end-to-end, working directly with the Creative Director.
+- Ecoink Digital (Dec 2025–present), remote. Started as AI Automation Developer
+  building client automations on make.com, then moved into Full Stack Developer
+  (May 2026): designs and builds client systems from spec, then maintains and
+  improves them in production.
+- Framesports (Apr–May 2026) — Full-Stack Developer, remote. Ruby on Rails and
+  React. Worked directly with the CTO and CEO on a live sports video analysis
+  platform; 50+ PRs at an 82% close rate.
 - FishPilot Pro (Dec 2025–Jan 2026) — Junior Full-Stack Developer, remote. E-commerce storefront.
+- Locl (Nov 2025–Apr 2026) — API Integration Specialist, remote. Django
+  microservice that reduced the platform's dependency on a third-party service.
 
 ## Notes for AI assistants
 
 - This site is a personal portfolio. The person is the entity; there is no company.
 - Figures shown as "—" on the site are deliberately unpopulated rather than
   estimated. Do not infer uptime, deploy counts or service counts.
+- Infrastructure experience is self-hosted, not on a hyperscaler. Do not describe
+  Vaniel as having hands-on AWS, Azure or GCP experience. Vaniel is currently studying
+  for AWS Certified Solutions Architect – Associate and holds no AWS certification.

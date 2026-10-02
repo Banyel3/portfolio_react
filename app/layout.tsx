@@ -22,9 +22,9 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
 });
 
-const TITLE = "Vaniel Cornelio — Backend Developer & Cloud Engineer";
+const TITLE = "Vaniel Cornelio — Backend & Infrastructure Developer";
 const DESCRIPTION =
-  "Backend developer and cloud engineer building and operating self-hosted cloud infrastructure — Linux, Docker, Nginx, Cloudflare Tunnel, and secure deployments.";
+  "Backend developer building and operating production backends and self-hosted infrastructure: PostgreSQL, Docker, Nginx, Linux, and Cloudflare Tunnel.";
 
 export const metadata: Metadata = {
   // metadataBase resolves every relative OG/Twitter image URL below. Without it

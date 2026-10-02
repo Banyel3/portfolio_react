@@ -49,7 +49,7 @@ Single-page personal portfolio with an inline CMS, all in one Next.js 16 App Rou
 - shadcn primitives live in `components/ui/`; do not edit them when adding features — compose them in the feature components at `components/<name>.tsx`.
 - Fonts: `Space_Grotesk` (display) and `Inter` (body) are loaded in `app/layout.tsx` via CSS variables `--font-display` / `--font-body`. Theme handled by `next-themes` through `components/theme-provider.tsx`.
 - Both `pnpm-lock.yaml` and `package-lock.json` are committed; `pnpm-lock.yaml` is the source of truth — keep `package-lock.json` in sync or remove it if switching tools.
-- The site identity is "Backend Developer & Cloud Engineer" (see `app/layout.tsx` metadata and recent commits). Match copy and tone when editing public-facing strings.
+- The site identity is "Backend & Infrastructure Developer" (see `app/layout.tsx` metadata and recent commits). Match copy and tone when editing public-facing strings.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

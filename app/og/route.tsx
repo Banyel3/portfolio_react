@@ -78,8 +78,8 @@ export function GET() {
               letterSpacing: "-0.01em",
             }}
           >
-            Backend Developer <span style={{ color: "#3fd0d4", margin: "0 12px" }}>&</span> Cloud
-            Engineer
+            Backend <span style={{ color: "#3fd0d4", margin: "0 12px" }}>&</span> Infrastructure
+            Developer
           </div>
           <div style={{ display: "flex", fontSize: 27, color: MUTED, marginTop: 22, maxWidth: 940 }}>
             I ship and run production backends. Postgres, Docker, Nginx, Cloudflare Tunnel.

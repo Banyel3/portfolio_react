@@ -1,6 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import SectionHeader from "@/components/section-header";
+import { CURRENTLY_LEARNING } from "@/lib/constants";
 
 type Cert = { id: string; title: string; issuer: string; level?: string | null; date?: string };
 type Badge = { id: string; title: string; issuer: string; imageUrl?: string | null; badgeUrl?: string | null };
@@ -131,6 +132,11 @@ export default function Credentials({
             </div>
           ))}
 
+        {tab === "certs" && (
+          <p className="mb-4 text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">Currently learning:</span> {CURRENTLY_LEARNING}
+          </p>
+        )}
         {tab === "certs" &&
           (certs.length === 0 ? (
             <Empty>No certifications yet.</Empty>

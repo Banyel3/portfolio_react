@@ -13,7 +13,7 @@ export default function ContactCta() {
         <span className="text-muted-foreground/60">that stays up.</span>
       </h2>
       <p className="mx-auto mt-[18px] max-w-[520px] text-[17px] leading-relaxed text-muted-foreground">
-        Backend systems, cloud infra, internal tooling. Tell me about your stack and I will reply
+        Backend systems, self-hosted infrastructure, internal tooling. Tell me about your stack and I will reply
         within a day.
       </p>
       <div className="mt-9">
