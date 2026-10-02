@@ -36,7 +36,6 @@ export const PERSON = {
   location: "Philippines",
 } as const;
 
-export const RESUME_PATH = "/Cornelio-Resume.pdf";
 export const CONTACT_BOOK_URL = "mailto:cornelio.vaniel38@gmail.com?subject=Backend%2FCloud%20opportunity";
 export const CONTACT_EMAIL = "cornelio.vaniel38@gmail.com";
 export const GITHUB_URL = "https://github.com/Banyel3";

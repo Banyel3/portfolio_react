@@ -4,7 +4,6 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Menu, X, Settings, Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { RESUME_PATH } from "@/lib/constants";
 import LogoMark from "@/components/logo-mark";
 
 const NAV_ITEMS = [
@@ -138,12 +137,11 @@ export default function Navigation() {
             {mounted && <ThemeIcon size={15} className="transition-transform duration-300 group-hover:rotate-90" />}
           </button>
           <a
-            href={RESUME_PATH}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#contact"
+            onClick={(e) => smoothScroll(e, "#contact")}
             className="inline-flex h-9 items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground transition-colors hover:border-primary"
           >
-            Résumé
+            Get in touch
           </a>
         </div>
 
@@ -177,12 +175,11 @@ export default function Navigation() {
             ))}
             <div className="flex gap-2 pt-2">
               <a
-                href={RESUME_PATH}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#contact"
+                onClick={(e) => smoothScroll(e, "#contact")}
                 className="inline-flex h-11 flex-1 items-center justify-center rounded-lg bg-primary text-sm font-medium text-primary-foreground"
               >
-                Résumé
+                Get in touch
               </a>
               <button
                 type="button"

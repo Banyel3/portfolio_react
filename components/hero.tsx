@@ -1,7 +1,6 @@
 import { Github, Linkedin, Mail } from "lucide-react";
 import {
   AVAILABILITY,
-  RESUME_PATH,
   CONTACT_EMAIL,
   GITHUB_URL,
   LINKEDIN_URL,
@@ -65,27 +64,16 @@ export default function Hero() {
 
           <div className="animate-rise mt-8 flex flex-wrap items-center gap-3" style={{ animationDelay: "380ms" }}>
             <a
-              href={RESUME_PATH}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex h-[42px] items-center gap-2 rounded-lg bg-primary px-[18px] text-sm font-medium text-primary-foreground shadow-[0_8px_24px_-8px_color-mix(in_oklch,var(--primary)_60%,transparent)] transition-[transform,filter] duration-150 hover:-translate-y-px hover:brightness-110 active:scale-[0.98]"
-            >
-              View Résumé
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                <path d="M7 17 17 7M8 7h9v9" />
-              </svg>
-            </a>
-            <a
               href="#work"
-              className="inline-flex h-[42px] items-center rounded-lg border border-border px-[18px] text-sm font-medium text-foreground transition-colors duration-150 hover:border-primary"
+              className="group inline-flex h-[42px] items-center gap-2 rounded-lg bg-primary px-[18px] text-sm font-medium text-primary-foreground shadow-[0_8px_24px_-8px_color-mix(in_oklch,var(--primary)_60%,transparent)] transition-[transform,filter] duration-150 hover:-translate-y-px hover:brightness-110 active:scale-[0.98]"
             >
               See the projects
             </a>
             <a
               href="#contact"
-              className="inline-flex h-[42px] items-center px-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="inline-flex h-[42px] items-center rounded-lg border border-border px-[18px] text-sm font-medium text-foreground transition-colors duration-150 hover:border-primary"
             >
-              Contact
+              Get in touch
             </a>
           </div>
 
