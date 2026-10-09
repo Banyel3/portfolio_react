@@ -45,7 +45,6 @@ export const PERSON = {
 // rendered as "Currently learning", never as a certificate item.
 export const CURRENTLY_LEARNING = "AWS Certified Solutions Architect – Associate";
 
-export const CONTACT_BOOK_URL = "mailto:cornelio.vaniel38@gmail.com?subject=Backend%2FInfrastructure%20opportunity";
 export const CONTACT_EMAIL = "cornelio.vaniel38@gmail.com";
 export const GITHUB_URL = "https://github.com/Banyel3";
 export const LINKEDIN_URL = "https://www.linkedin.com/in/vancornelio";

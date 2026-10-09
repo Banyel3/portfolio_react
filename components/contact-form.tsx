@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { CONTACT_EMAIL } from "@/lib/constants";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -11,6 +10,10 @@ const field =
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  // Set from the 429's Retry-After so the button stays off until the server
+  // would accept again. The server enforces the limit; this just says so.
+  const [limitedUntil, setLimitedUntil] = useState<number | null>(null);
+  const limited = limitedUntil !== null && Date.now() < limitedUntil;
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -25,6 +28,10 @@ export default function ContactForm() {
         body: JSON.stringify(data),
       });
       const json = await res.json().catch(() => ({}));
+      if (res.status === 429) {
+        const wait = Number(res.headers.get("Retry-After")) || 3600;
+        setLimitedUntil(Date.now() + wait * 1000);
+      }
       if (!res.ok) throw new Error(json.error ?? "Could not send.");
       setStatus("sent");
       form.reset();
@@ -91,14 +98,18 @@ export default function ContactForm() {
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <button
           type="submit"
-          disabled={sending}
-          className="group relative inline-flex h-[46px] min-w-[150px] items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground shadow-[0_8px_24px_-8px_color-mix(in_oklch,var(--primary)_60%,transparent)] transition-[transform,filter,opacity] duration-150 hover:-translate-y-px hover:brightness-110 active:translate-y-0 active:scale-[0.98] disabled:cursor-wait disabled:opacity-80"
+          disabled={sending || limited}
+          className={`group relative inline-flex h-[46px] min-w-[150px] items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground shadow-[0_8px_24px_-8px_color-mix(in_oklch,var(--primary)_60%,transparent)] transition-[transform,filter,opacity] duration-150 hover:-translate-y-px hover:brightness-110 active:translate-y-0 active:scale-[0.98] disabled:opacity-80 ${
+            limited ? "disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:brightness-100" : "disabled:cursor-wait"
+          }`}
         >
           {sending ? (
             <>
               <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground" />
               Sending…
             </>
+          ) : limited ? (
+            "Limit reached"
           ) : (
             <>
               Send message
@@ -109,13 +120,17 @@ export default function ContactForm() {
             </>
           )}
         </button>
-        <a href={`mailto:${CONTACT_EMAIL}`} className="font-mono text-[13px] text-muted-foreground hover:text-foreground">
-          or email {CONTACT_EMAIL}
-        </a>
       </div>
 
       {status === "error" && (
-        <p role="alert" className="animate-fade-in mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3.5 py-2.5 text-sm text-red-300">
+        <p
+          role="alert"
+          className={`animate-fade-in mt-3 rounded-lg border px-3.5 py-2.5 text-sm ${
+            limited
+              ? "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300"
+              : "border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-300"
+          }`}
+        >
           {error}
         </p>
       )}

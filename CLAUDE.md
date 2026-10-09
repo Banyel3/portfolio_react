@@ -28,7 +28,7 @@ Single-page personal portfolio with an inline CMS, all in one Next.js 16 App Rou
 ### Data layer
 
 - **Database**: Neon Postgres via Prisma. The Prisma client is a global singleton in `lib/prisma.ts` to survive HMR. Schema in `prisma/schema.prisma` defines `Certificate`, `Project`, `Skill`, `Badge`, `Testimonial`, and the `CertificationLevel` enum (ENTRY/INTERMEDIATE/ADVANCED). Arrays (`technologies`, `skills`, `images`) are Postgres `text[]`.
-- **Direct SQL escape hatch**: `actions.ts` (project root) uses `@neondatabase/serverless` (`neon()` tagged template). Only one server action exists; prefer Prisma unless serverless edge SQL is needed.
+- **Infra stats**: `scripts/push-infra-stats.mjs` runs from a user crontab on the self-hosted box and upserts the single `infra_stats` row (via `@neondatabase/serverless`) that the hero panel reads. There are no server actions; prefer Prisma everywhere else.
 - **Image storage**: Supabase Storage, bucket `SUPABASE_BUCKET_NAME` (default `projects`). Uploads go through `app/api/upload-project/route.ts` and `app/api/upload-badge/route.ts` using the **service role key** (server-side only). 5 MB limit, image MIME enforced, public URL falls back to a 7-day signed URL if the bucket is private. `utils/supabase/{client,server,middleware}.ts` provide anon-key clients for non-upload reads.
 - **Project categories** are centralized in `lib/constants.ts` (`PROJECT_CATEGORIES`); use this constant everywhere instead of hard-coding category strings — it feeds both the CMS dropdown and the portfolio filter.
 
