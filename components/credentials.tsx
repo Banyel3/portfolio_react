@@ -27,10 +27,12 @@ export default function Credentials({
 }) {
   const [tab, setTab] = useState<Tab>("skills");
   const certs = Array.isArray(certificates) ? certificates : [];
+  // No certificates yet: drop the tab instead of showing an empty one.
+  const tabs = TABS.filter((t) => t.key !== "certs" || certs.length > 0);
   const bdg = Array.isArray(badges) ? badges : [];
   const sk = Array.isArray(skills) ? skills : [];
   const counts: Record<Tab, number> = { skills: sk.length, badges: bdg.length, certs: certs.length };
-  const idx = TABS.findIndex((t) => t.key === tab);
+  const idx = tabs.findIndex((t) => t.key === tab);
 
   const grouped = useMemo(() => {
     const map = new Map<string, Skill[]>();
@@ -52,14 +54,19 @@ export default function Credentials({
           <div
             role="tablist"
             aria-label="Credential type"
-            className="relative grid grid-cols-3 rounded-[10px] border border-border bg-card p-[3px]"
+            className="relative grid rounded-[10px] border border-border bg-card p-[3px]"
+            style={{ gridTemplateColumns: `repeat(${tabs.length}, minmax(0, 1fr))` }}
           >
             <span
               aria-hidden
-              className="absolute bottom-[3px] top-[3px] w-[calc((100%-6px)/3)] rounded-lg bg-background shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-transform duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-              style={{ transform: `translateX(calc(${idx} * 100% + ${idx * 3}px))`, left: 3 }}
+              className="absolute bottom-[3px] top-[3px] rounded-lg bg-background shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-transform duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+              style={{
+                width: `calc((100% - 6px) / ${tabs.length})`,
+                transform: `translateX(calc(${idx} * 100% + ${idx * 3}px))`,
+                left: 3,
+              }}
             />
-            {TABS.map((t) => (
+            {tabs.map((t) => (
               <button
                 key={t.key}
                 role="tab"
@@ -134,11 +141,6 @@ export default function Credentials({
             </div>
           ))}
 
-        {tab === "certs" && (
-          <p className="mb-4 text-sm text-muted-foreground">
-            <span className="font-medium text-foreground">Currently learning:</span> {CURRENTLY_LEARNING}
-          </p>
-        )}
         {tab === "certs" &&
           (certs.length === 0 ? (
             <Empty>No certifications yet.</Empty>
@@ -160,6 +162,10 @@ export default function Credentials({
             </ul>
           ))}
       </div>
+
+      <p className="mt-8 text-sm text-muted-foreground">
+        <span className="font-medium text-foreground">Currently learning:</span> {CURRENTLY_LEARNING}
+      </p>
     </section>
   );
 }

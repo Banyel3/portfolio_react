@@ -24,7 +24,8 @@ export const INFRA = {
   host: "demo.vancornelio.dev",
   url: "https://demo.vancornelio.dev",
   probeHost: "pondo.vancornelio.dev",
-  probeUrl: "https://pondo.vancornelio.dev",
+  // /login directly: "/" redirects there, which would double the round trip.
+  probeUrl: "https://pondo.vancornelio.dev/login",
   stack: ["Ubuntu Server", "Docker", "Nginx", "Cloudflare Tunnel", "Portainer", "Cockpit"],
 } as const;
 

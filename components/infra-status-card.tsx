@@ -1,21 +1,43 @@
+import { Agent, get } from "node:https";
 import { INFRA } from "@/lib/constants";
 import { prisma } from "@/lib/prisma";
 
 type Status = "up" | "down" | "unknown";
 type Probe = { status: Status; ms: number | null; code: number | null };
 
-async function probeOrigin(): Promise<Probe> {
-  const t0 = Date.now();
-  try {
-    // GET, not HEAD: pondo (FastAPI) answers HEAD with 405.
-    const res = await fetch(INFRA.probeUrl, {
-      next: { revalidate: 60 },
-      signal: AbortSignal.timeout(3000),
+// Runs on each page regeneration (revalidate = 60 on the page).
+//
+// node:https, not fetch: Next caches GET fetches made during a static render,
+// so a fetch here would report a cache read as latency — and `no-store` would
+// make the whole page dynamic.
+//
+// Two requests on one keep-alive connection, report the faster: the first pays
+// for TLS and the cold path through the tunnel, the second is the round trip a
+// warm visitor would see. GET, not HEAD: pondo (FastAPI) answers HEAD with 405.
+function hit(agent: Agent): Promise<{ code: number; ms: number }> {
+  return new Promise((resolve, reject) => {
+    const t0 = Date.now();
+    const req = get(INFRA.probeUrl, { agent, timeout: 5000 }, (res) => {
+      res.resume().on("end", () => resolve({ code: res.statusCode ?? 0, ms: Date.now() - t0 }));
     });
-    return { status: res.ok ? "up" : "down", ms: Date.now() - t0, code: res.status };
-  } catch {
-    return { status: "unknown", ms: null, code: null };
+    req.on("timeout", () => req.destroy(new Error("timeout"))).on("error", reject);
+  });
+}
+
+async function probeOrigin(): Promise<Probe> {
+  const agent = new Agent({ keepAlive: true, maxSockets: 1 });
+  let best: Probe = { status: "unknown", ms: null, code: null };
+  try {
+    for (let i = 0; i < 2; i++) {
+      const r = await hit(agent).catch(() => null);
+      if (r && (best.ms === null || r.ms < best.ms)) {
+        best = { status: r.code >= 200 && r.code < 300 ? "up" : "down", ms: r.ms, code: r.code };
+      }
+    }
+  } finally {
+    agent.destroy();
   }
+  return best;
 }
 
 // A failed read leaves the rows as "—" rather than failing the whole page.
