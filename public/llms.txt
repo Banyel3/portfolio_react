@@ -6,7 +6,7 @@
 
 Contact: cornelio.vaniel38@gmail.com
 GitHub: https://github.com/Banyel3
-LinkedIn: https://www.linkedin.com/in/vaniel-john-cornelio-4ba8aa278/
+LinkedIn: https://www.linkedin.com/in/vancornelio
 
 ## Projects
 
@@ -29,9 +29,12 @@ rejected, how it runs in production, and what would change next time.
 
 ## Infrastructure
 
-- Live self-hosted demo: https://demo.vancornelio.dev — Ubuntu Server, Docker,
-  Nginx, Cloudflare Tunnel (no open inbound ports), Portainer, Cockpit.
-  The status panel on the homepage probes it server-side every 60 seconds.
+- Infrastructure write-up: https://demo.vancornelio.dev — the self-hosted box:
+  Ubuntu Server, Docker, Nginx, Cloudflare Tunnel (no open inbound ports),
+  Portainer, Cockpit. The write-up page itself is hosted on Vercel.
+- The status panel on the homepage probes https://pondo.vancornelio.dev (an app
+  on that box, reached through the tunnel) server-side every 60 seconds. Uptime,
+  service count and last deploy are measured on the box and pushed every 5 minutes.
 - Tailscale for private access across self-hosted machines.
 
 ## Experience

@@ -71,7 +71,9 @@ export default function Credentials({
                 }`}
               >
                 {t.label}
-                <b className="ml-1.5 font-mono text-[11px] font-medium text-muted-foreground">{counts[t.key]}</b>
+                {counts[t.key] > 0 && (
+                  <b className="ml-1.5 font-mono text-[11px] font-medium text-muted-foreground">{counts[t.key]}</b>
+                )}
               </button>
             ))}
           </div>

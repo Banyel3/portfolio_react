@@ -12,16 +12,19 @@ export const AVAILABILITY = {
   text: "Open to backend and infrastructure roles",
 } as const;
 
-// Live infrastructure panel in the hero. Status and latency are probed
-// server-side every 60 s (see components/infra-status-card.tsx). The rest are
-// hand-maintained facts: leave a value null and the row shows "—" rather than a
-// made-up number.
+// Live infrastructure panel in the hero (components/infra-status-card.tsx).
+// Status and latency come from probing `probeUrl` server-side every 60 s; the
+// other rows come from the infra_stats row the box itself pushes (see
+// scripts/push-infra-stats.mjs).
+//
+// `host`/`url` is the showcase page, which is hosted on Vercel — so it is NOT
+// what gets probed. `probeUrl` goes through Cloudflare Tunnel to an app on the
+// self-hosted machine, so a dead server reads as DOWN.
 export const INFRA = {
   host: "demo.vancornelio.dev",
   url: "https://demo.vancornelio.dev",
-  uptime30d: null as number | null, // e.g. 99.9
-  services: null as number | null, // containers running behind nginx
-  lastDeploy: null as string | null, // e.g. "2d ago"
+  probeHost: "pondo.vancornelio.dev",
+  probeUrl: "https://pondo.vancornelio.dev",
   stack: ["Ubuntu Server", "Docker", "Nginx", "Cloudflare Tunnel", "Portainer", "Cockpit"],
 } as const;
 
@@ -32,6 +35,7 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.vancorn
 
 export const PERSON = {
   name: "Vaniel Cornelio",
+  legalName: "Vaniel John Cornelio",
   jobTitle: "Backend & Infrastructure Developer",
   location: "Philippines",
 } as const;
@@ -43,4 +47,4 @@ export const CURRENTLY_LEARNING = "AWS Certified Solutions Architect – Associa
 export const CONTACT_BOOK_URL = "mailto:cornelio.vaniel38@gmail.com?subject=Backend%2FInfrastructure%20opportunity";
 export const CONTACT_EMAIL = "cornelio.vaniel38@gmail.com";
 export const GITHUB_URL = "https://github.com/Banyel3";
-export const LINKEDIN_URL = "https://www.linkedin.com/in/vaniel-john-cornelio-4ba8aa278/";
+export const LINKEDIN_URL = "https://www.linkedin.com/in/vancornelio";

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { SITE_URL } from "@/lib/constants";
 
 // The CMS has no auth gate. Blocking only the /cms UI would be theatre: every
 // /api/<entity> route is an unauthenticated create/update/delete, and the
@@ -45,7 +46,15 @@ function isKnownRoute(pathname: string) {
 }
 
 export function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, search } = request.nextUrl;
+
+  // The project's *.vercel.app alias serves the same site as the real domain.
+  // Permanently send it there so search engines see one site, not two.
+  // Vercel sets VERCEL_ENV=production only on production deployments, so
+  // preview deployments (also *.vercel.app) stay reachable.
+  if (process.env.VERCEL_ENV === "production" && request.headers.get("host")?.endsWith(".vercel.app")) {
+    return NextResponse.redirect(`${SITE_URL}${pathname}${search}`, 308);
+  }
 
   // Unknown URL: home, in every environment, before anything renders.
   if (!isKnownRoute(pathname)) {

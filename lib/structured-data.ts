@@ -23,6 +23,7 @@ export function personAndSiteSchema(skills: string[] = []) {
         "@type": "Person",
         "@id": PERSON_ID,
         name: PERSON.name,
+        alternateName: PERSON.legalName,
         jobTitle: PERSON.jobTitle,
         description:
           "Backend developer building and operating production backends and self-hosted infrastructure.",

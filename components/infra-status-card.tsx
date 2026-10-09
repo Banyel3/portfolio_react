@@ -1,13 +1,14 @@
 import { INFRA } from "@/lib/constants";
+import { prisma } from "@/lib/prisma";
 
 type Status = "up" | "down" | "unknown";
 type Probe = { status: Status; ms: number | null; code: number | null };
 
-async function probeDemo(): Promise<Probe> {
+async function probeOrigin(): Promise<Probe> {
   const t0 = Date.now();
   try {
-    const res = await fetch(INFRA.url, {
-      method: "HEAD",
+    // GET, not HEAD: pondo (FastAPI) answers HEAD with 405.
+    const res = await fetch(INFRA.probeUrl, {
       next: { revalidate: 60 },
       signal: AbortSignal.timeout(3000),
     });
@@ -15,6 +16,24 @@ async function probeDemo(): Promise<Probe> {
   } catch {
     return { status: "unknown", ms: null, code: null };
   }
+}
+
+// A failed read leaves the rows as "—" rather than failing the whole page.
+async function loadStats() {
+  try {
+    return await prisma.infraStats.findUnique({ where: { id: 1 } });
+  } catch (err) {
+    console.error("[infra] stats read failed:", err);
+    return null;
+  }
+}
+
+function ago(date: Date | null | undefined) {
+  if (!date) return null;
+  const min = Math.max(0, Math.round((Date.now() - date.getTime()) / 60000));
+  if (min < 60) return `${min}m ago`;
+  if (min < 1440) return `${Math.round(min / 60)}h ago`;
+  return `${Math.round(min / 1440)}d ago`;
 }
 
 const TONE: Record<Status, { dot: string; text: string; label: string }> = {
@@ -34,7 +53,7 @@ const fmt = (v: number | string | null, unit?: string) =>
   );
 
 export default async function InfraStatusCard() {
-  const probe = await probeDemo();
+  const [probe, stats] = await Promise.all([probeOrigin(), loadStats()]);
   const tone = TONE[probe.status];
 
   return (
@@ -61,9 +80,9 @@ export default async function InfraStatusCard() {
             </small>
           )}
         </Row>
-        <Row label="Uptime · 30d">{fmt(INFRA.uptime30d, "%")}</Row>
-        <Row label="Services hosted">{fmt(INFRA.services)}</Row>
-        <Row label="Last deploy">{fmt(INFRA.lastDeploy)}</Row>
+        <Row label="Uptime · 30d">{fmt(stats?.uptime30d == null ? null : stats.uptime30d.toFixed(1), "%")}</Row>
+        <Row label="Services hosted">{fmt(stats?.services ?? null)}</Row>
+        <Row label="Last deploy">{fmt(ago(stats?.lastDeploy))}</Row>
       </div>
 
       <div className="flex flex-wrap gap-1.5 border-t border-border bg-card px-4 py-3.5">
@@ -75,7 +94,7 @@ export default async function InfraStatusCard() {
       </div>
 
       <div className="flex items-center justify-between border-t border-border bg-background/40 px-4 py-3 text-xs text-muted-foreground">
-        <span>Probed server-side · cached 60 s</span>
+        <span>Probes {INFRA.probeHost} via tunnel · 60 s</span>
         <a
           href={INFRA.url}
           target="_blank"

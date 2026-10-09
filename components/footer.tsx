@@ -1,4 +1,4 @@
-import { INFRA } from "@/lib/constants";
+import { INFRA, PERSON } from "@/lib/constants";
 
 export default function Footer() {
   return (
@@ -15,7 +15,7 @@ export default function Footer() {
         >
           {INFRA.host}
         </a>
-        <span>© {new Date().getFullYear()}</span>
+        <span>© {new Date().getFullYear()} {PERSON.legalName}</span>
       </div>
     </footer>
   );

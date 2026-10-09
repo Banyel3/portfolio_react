@@ -170,3 +170,16 @@ model Testimonial {
   @@index([experienceId])
   @@map("testimonials")
 }
+
+/// One row (id 1) of live facts about the self-hosted box, pushed by
+/// scripts/push-infra-stats.mjs from a cron job on that machine. The hero's
+/// infrastructure panel reads it; a missing row renders as "—".
+model InfraStats {
+  id         Int       @id @default(1)
+  uptime30d  Float?
+  services   Int?
+  lastDeploy DateTime?
+  updatedAt  DateTime  @updatedAt
+
+  @@map("infra_stats")
+}
