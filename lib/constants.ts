@@ -45,6 +45,18 @@ export const PERSON = {
 // rendered as "Currently learning", never as a certificate item.
 export const CURRENTLY_LEARNING = "AWS Certified Solutions Architect – Associate";
 
+// BIR Registration Seal Badge (RMC 38-2026): registered online businesses and
+// professionals must display it on their website. The image in public/ is the
+// badge exactly as issued, cropped but otherwise unaltered — the rule requires
+// that. `verifyUrl` is what its QR code encodes.
+export const BIR_SEAL = {
+  image: "/bir-registration-seal.png",
+  width: 574,
+  height: 196,
+  rsn: "93ARC20260000004103",
+  verifyUrl: "https://verify.bir.gov.ph/correspondence/54280934a1f445a285827224c79006bb",
+} as const;
+
 export const CONTACT_EMAIL = "cornelio.vaniel38@gmail.com";
 export const GITHUB_URL = "https://github.com/Banyel3";
 export const LINKEDIN_URL = "https://www.linkedin.com/in/vancornelio";
